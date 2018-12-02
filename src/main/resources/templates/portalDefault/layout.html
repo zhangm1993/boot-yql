@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" >
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+	<title th:text="${name}"></title>
+	<script src="/portal/plugin/jquery/jquery-2.2.1.js"></script>
+	<script src="/portal/plugin/pagination/jquery.pagination.js"></script>
+	<script src="/portal/plugin/jquery/jquery.SuperSlide.2.1.1.js"></script>
+	<script src="/portal/js/index.js"></script>
+
+	<link rel="stylesheet" href="/portal/plugin/w3/w3.css"/>
+	<link rel="stylesheet" href="/portal/plugin/w3/font-awesome.min.css"/>
+	<link rel="stylesheet" href="/portal/plugin/pagination/pagination.css">
+	<link rel="stylesheet" href="/portal/css/style.css"/>
+	<link rel="stylesheet" href="/ace/css/bootstrap.min.css" />
+	<script src="/ace/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap-table.min.js"></script>
+	<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+	<script src="/js/bootstrapValidator.min.js"></script>
+
+	<link rel="icon" type="image/x-icon" href="/image/favicon.ico" />
+</head>
+	<body>
+		<div th:replace="portalDefault/header :: header">
+
+		</div>
+		<div layout:fragment="content">
+
+		</div>
+
+		<div th:replace="portalDefault/footer :: footer">
+
+		</div>
+	</body>
+</html>

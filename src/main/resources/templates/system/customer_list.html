@@ -1,0 +1,84 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">客户公司管理</li>
+            </ul><!-- /.breadcrumb -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <input class="search-data" name="Q_LIKE_name" type="text" placeholder="公司名称" >
+                    <select class="search-data" name="Q_EQ_manager.id">
+                        <option value="">选择客户经理</option>
+                        <option th:each="user:${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                    </select>
+                    <select class="search-data" name="Q_EQ_companyType.id">
+                        <option value="">选择公司类型</option>
+                        <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}"></option>
+                    </select>
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" href="/system/customer_add" data-target="#modal">新增</a>
+                    <a type="button" onclick="editData('/system/customer_edit','id')" class="btn btn-info">修改</a>
+                    <a type="button" onclick="delDatas('/system/customer_del')" class="btn btn-danger">删除</a>
+                </div>
+                <table id="dataTable" data-url="/system/customer_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="10" data-cache="false">
+
+                </table>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+
+
+    <script>
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'name',
+            title: '公司名称'
+        },{
+            field: 'manager.name',
+            title: '客户经理'
+        },{
+            field: 'companyType.name',
+            title: '公司类型'
+        },{
+            field: 'companyTelephone',
+            title: '公司电话'
+        },{
+            field: 'contactName',
+            title: '联系人'
+        },{
+            field: 'balance',
+            title: '账户余额'
+        },{
+            field: 'tmpBalance',
+            title: '可用余额'
+        },];
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+    </script>
+
+</div>
+</body>
+</html>

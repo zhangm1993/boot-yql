@@ -1,0 +1,53 @@
+/*主页面搜索样式*/
+.search_condition{
+    padding: 3px;
+    background-color: rgb(246,248,255);
+    display: flex;
+    justify-content: flex-start;
+}
+/*主页面搜索条件框样式*/
+.search-data{
+    width: 200px;
+    height: 42px;
+    margin-right: 5px;
+}
+
+/*搜索按钮样式*/
+.btn-search{
+    margin-left: 5px;
+}
+
+/*主页面表格样式*/
+.main-body{
+    background-color: rgb(246,248,255);
+    margin-top: 10px;
+}
+
+/*新增页面样式*/
+.all-add{
+    display: flex;
+    flex-direction: column;
+}
+.row-add{
+    display: flex;
+    align-items: baseline ;
+    justify-content:space-between;
+}
+.input-add{
+    margin-left: 10px;
+}
+
+
+input{
+    border-radius:10px;
+}
+
+/*参数管理页面--start*/
+.parameter_main{
+    display: flex;
+    justify-content: space-between;
+}
+.parameter_div{
+    width: 49%;
+}
+/*参数管理页面--end*/

@@ -1,0 +1,98 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">角色管理</li>
+            </ul><!-- /.breadcrumb -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <input class="search-data" name="Q_LIKE_name" type="text" placeholder="角色名称" >
+                    <select class="search-data" name="Q_EQ_type.id">
+                        <option value="">选择身份</option>
+                        <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}"></option>
+                    </select>
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" href="/system/menu_add" data-target="#modal">新增</a>
+                    <a type="button" onclick="editData('/system/menu_edit','id')" class="btn btn-info">修改</a>
+                    <a type="button" onclick="delDatas('/system/menu_del')" class="btn btn-danger">删除</a>
+                </div>
+                <table id="dataTable" data-url="/system/menu_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="15" data-cache="false">
+
+                </table>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+
+    <script>
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'title',
+            title: '菜单标题'
+        },{
+            field: 'type',
+            title: '类型',
+            formatter:function (value,row,index) {
+                if(value == 1){
+                    return '<p style="color: #00BE67">菜单</p>';
+                }
+                if(value == 2){
+                    return '<p style="color: #00BE67">按钮</p>';
+                }
+            }
+        },{
+            field: 'createDate',
+            title: '创建时间',
+            formatter:function(value,row,index){
+                return formatTimeStrap(value);
+            }
+        }];
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+
+        function role_authorization(url,field,id) {
+            var idResult = "dataTable";
+            if(id){
+                idResult = id;
+            }
+            var table = $("#"+idResult).bootstrapTable('getSelections');
+            if(table.length == 0){
+                alert("请选择一条记录");
+                return false;
+            }else if(table.length > 1){
+                alert("只能选择一条记录");
+                return false;
+            }
+            var result = table[0][field];
+            $("#modal").modal({
+                remote:url+ "?"+field+"="+result
+            });
+        }
+
+    </script>
+
+</div>
+</body>
+</html>

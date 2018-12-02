@@ -1,0 +1,260 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="home-t">
+        <div class="home-banner">
+            <ul class="home-banner-change">
+                <li class="">1</li>
+                <li class="">2</li>
+                <li class="">3</li>
+                <li class="on">4</li>
+                <li>5</li>
+            </ul>
+            <ul class="home-banner-list">
+                <li class="lunboli" th:each="carx : ${carsl}">
+                    <div th:style="'text-align: center;backgorund:'+${carx.pictureBackground}">
+                        <div class="home-title">
+                            <div style="height: 240px;padding-left:10px" class="w3-text-sand">
+                                <h2 th:text="${carx.title}">商品的标题</h2>
+                                <p th:utext="${carx.description}">商品的一句话简介Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient monte</p>
+                            </div>
+                            <div class="home-title-btnd">
+                                <a class="w3-btn w3-hover-khaki w3-blue">立即咨询</a>
+                            </div>
+                        </div>
+
+                        <a th:href="${carx.categoryUrl}" class="a-lun">
+                            <img th:src="${paHttp.remark+carx.pictureUrl}" height="400px" width="1520px"/>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <div class="home-topm">
+            <div class="div500">
+                <ul class="w3-row w3-navbar w3-large" id="exa_type">
+                  <!--  <li class="w3-col s3 w3-dropdown-hover w3-white"><a href="#">行业分类1<i class="fa fa-caret-down"></i></a>
+                       &lt;!&ndash; <div class="w3-dropdown-content w3-white w3-card-4">
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>&ndash;&gt;
+                    </li>
+                    <li class="w3-col s3"><a href="#">行业分类2<i class="fa fa-caret-down"></i></a></li>-->
+                    <li class="w3-col s3 w3-center w3-blue" data-val=""><a href="javascript:void(0)">全部</a></li>
+                    <li class="w3-col s3 w3-center" th:each="caType : ${paCaseType}" th:data-val="${caType.id}">
+                        <a href="javascript:void(0)" th:text="${caType.name}">
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="w3-container margin-tm">
+            <div class="div1200">
+                <ul class="ex-con" style="min-height: 650px">
+                  <!--  <li th:each="casea : ${caseh.content}">
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center" th:text="${casea.name}">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                               <a th:href="'example-detail?id='+ ${casea.id}">
+                                   <img th:src="${paHttp.remark+casea.pictureUrl}" width="320" height="225"/>
+                               </a>
+                            </div>
+                        </div>
+                    </li>-->
+                   <!-- <li>
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                                <img src="/portal/images/ex_p01.png" width="320" height="225"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                                <img src="/portal/images/ex_p01.png"  width="320" height="225"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                                <img src="/portal/images/ex_p01.png"  width="320" height="225"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                                <img src="/portal/images/ex_p01.png"  width="320" height="225"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ex-pl">
+                            <div class="ex-btop"></div>
+                            <h4 class="w3-center">案例1</h4>
+                            <div class="w3-center ex-marg5">
+                                <img src="/portal/images/ex_p01.png"  width="320" height="225"/>
+                            </div>
+                        </div>
+                    </li>-->
+                </ul>
+                <div style="clear:both;height: 20px"></div>
+                <div style="float: right">
+                    <div class="w3-pagination w3-border w3-round">
+                        <!--<a href="javascript:void(0)">«</a>-->
+                        <!--<a class="w3-green" href="javascript:void(0)">1</a>-->
+                        <!--<a href="javascript:void(0)">2</a>-->
+                        <!--<a href="javascript:void(0)">3</a>-->
+                        <!--<a href="javascript:void(0)">4</a>-->
+                        <!--<a href="javascript:void(0)">5</a>-->
+                        <!--<a href="javascript:void(0)">»</a>-->
+                    </div>
+                </div>
+                <p class="w3-center txt-font" style="clear: both"></p>
+            </div>
+        </section>
+        <footer></footer>
+        <script>
+            $(function(){
+                add_top();
+                    /*导航js*/
+                    // $(".nav-mycss li").on({
+                    //     mouseover : function(){
+                    //         $(this).find(".syhhe").show();
+                    //     } ,
+                    //     mouseout : function(){
+                    //         $(this).find(".syhhe").hide();
+                    //     }
+                    // });
+                    /*轮播图大图js*/
+                    $(".home-banner").slide({
+                        titCell: ".home-banner-change",
+                        mainCell: ".home-banner-list",
+                        effect: "fold",
+                        autoPlay: true,
+                        autoPage: true,
+                        trigger: "click"
+                    });
+
+
+                $(this).on("click","#exa_type li",function(){
+
+                    $(this).addClass("w3-blue").siblings().removeClass("w3-blue");
+
+
+                    var type=$(this).data("val");
+
+                    select_exa(0,6,type);
+
+                });
+
+                select_exa(0,6,"");
+            })
+
+
+
+            /**
+             *
+             * 分页的帮助文档
+             * */
+            function pagination_exa(pageNum,totalPages,type,callback){
+                console.log(pageNum);
+
+                if(!pageNum||pageNum==0){
+                    pageNum=0;
+                }
+
+                $('.w3-pagination').pagination({
+                    pageCount:totalPages,// 总页数
+                    current:pageNum+1,
+                    coping: true,
+                    homePage: '«',
+                    endPage: '»',
+                    prevContent: '上一页',
+                    nextContent: '下一页',
+                    callback: function (api) {
+                        console.log(api.getCurrent());
+                        callback(api.getCurrent()-1,6,type);
+                        $("html,body").animate({ scrollTop: 500 }, 1000);
+                    }
+                });
+            }
+
+
+
+
+            function select_exa(pageNum,pageSize,type){
+
+                if(!pageNum){
+                    pageNum=0
+                }
+                if(!pageSize){
+                    pageSize=6
+                }
+                console.log("type="+type);
+                var httpUrl=$("#http_url").val();
+
+                $.ajax({
+                    type: "post",
+                    url:'example_data_ajax',
+                    data: {
+                        'type':type,
+                        'pageNum':pageNum,
+                        'pageSize':pageSize
+                    },
+                    success: function(msg){
+                        // console.log(msg);
+                        var cases=msg.cases;
+                        var data=cases.content;
+
+                        var  totalPages=cases.totalPages;
+                        var str="";
+                        for(var index in data){
+
+
+                            //console.log(data)
+                           var httpUrlf=httpUrl+data[index].homeUrl;
+                                //console.log(doc_con[index1])
+                           str+=  ' <li>'
+                           str+=  '      <div class="ex-pl">'
+                           str+=  '          <div class="ex-btop"></div>'
+                           str+=  '          <h4 class="w3-center">'+data[index].name+'</h4>'
+                           str+=  '          <div class="w3-center ex-marg5">'
+                           str+=  '             <a href="example-detail?id='+ data[index].id+'">'
+                           str+=  '                 <img src="'+httpUrlf+'" width="320" height="225"/>'
+                           str+=  '             </a>'
+                           str+=  '          </div>'
+                           str+=  '      </div>'
+                           str+=  '  </li>'
+
+                            // console.log(str)
+
+                        }
+
+                        $(".ex-con").empty().append(str);
+                        pagination_exa(cases.number,totalPages,type,select_exa);
+                        var obj=msg.cases;
+                        $.extend(obj,{path:'.txt-font'});
+                        page_font_com(obj);
+                    }
+                });
+            }
+
+        </script>
+        </div>
+    </body>
+</html>

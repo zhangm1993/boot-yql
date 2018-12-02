@@ -1,0 +1,303 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div>
+        <div class="y-page-title">
+            <div class="y-row">
+                <div class="y-span12 y-last">
+                    <div class="y-page-title-box">
+                        <h1>咨询我们</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="y-row">
+            <div class="y-tip y-tip-normal" style="margin-top:30px;">
+                <div class="y-icon">
+                    <i class="icon-info"></i>
+                </div>
+                <div class="y-tip-message">温馨提醒：表单提交成功后，我们将于1-3个工作日内联系您。</div>
+            </div>
+        </div>
+
+        <div>
+            <form id="defaultForm" method="post" class="form-horizontal" action="/html/consult_save">
+                <div class="modal-body">
+
+                    <input style="display: none" name="objectId" id="objectId" th:value="${consult.id}">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">类型:</label>
+                        <div class="col-lg-5">
+                            <select class="form-control" name="type" id = "type">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">咨询对象:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="objectName" id="objectName" th:value="${consult.objectName}" readonly/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red">*</span>所属行业:</label>
+                        <div class="col-lg-5">
+                            <select class="form-control" name="business" id = "business">
+                                <option value="">请选择行业</option>
+                                <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red">*</span>公司名称/个人:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="personage" id="personage"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">公司规模:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="scale" id="scale"/>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red">*</span>联系人</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="name" id="name"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red">*</span>联系手机:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="phone" id="phone"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red">*</span>需求描述:</label>
+                        <div class="col-lg-5">
+                            <textarea  class="form-control" name="description" id="description" style="height: 150px"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">上传附件:</label>
+                        <div class="col-lg-5">
+                            <input type="file" class="form-control" id="accessory" name="accessory" multiple="multiple"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><span style="color: red"></span>适合沟通时间段:</label>
+                        <div class="col-lg-5">
+                            <input type="radio" value="1" name="communicateTime">9:00-10:30</input>
+                            <input type="radio" value="2" name="communicateTime">10:30-12:00</input>
+                            <input type="radio" value="3" name="communicateTime">14:00-16:00</input>
+                            <input type="radio" value="4" name="communicateTime">16:00-18:00</input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="text-align: center">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <style>
+        .y-page-title {
+            min-width: 1000px;
+            height: 56px;
+            border-bottom: solid 1px #e5e5e5;
+            z-index: 9;
+        }
+
+        .y-row {
+            min-width: 1000px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            zoom: 1;
+        }
+
+        .y-row .y-last {
+            margin-right: 0px !important;
+        }
+
+        .y-row .y-span12 {
+            width: 100%;
+        }
+
+        .y-page-title .y-page-title-box {
+            position: relative;
+        }
+
+        .y-tip {
+            padding: 3px 7px;
+            border: solid 1px #ddd;
+            background: #f9f9f9;
+            line-height: 2;
+            color: #333;
+        }
+
+        .y-tip.y-tip-normal {
+            background: #f1f6fa;
+            border-color: #e2eced;
+            color: #666;
+        }
+
+        .y-tip .y-icon {
+            float: left;
+            display: inline;
+            width: 16px;
+            height: 16px;
+            margin-top: 4px;
+            font-size: 16px;
+            font-style: normal;
+            line-height: 1;
+        }
+
+        [class*=" icon-"], [class^=icon-] {
+            font-family: 'iconfont';
+            speak: none;
+            font-style: normal;
+            font-weight: 400;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+    </style>
+    <script th:inline="javascript">
+
+        var consult = [[${consult}]];
+
+        $("#defaultForm").bootstrapValidator('addField','business',{
+            validators: {
+                notEmpty: {
+                    message: '所属行业不能为空'
+                }
+            }
+        });
+
+        $("#defaultForm").bootstrapValidator('addField','personage',{
+            validators: {
+                notEmpty: {
+                    message: '公司名称/个人不能为空'
+                }
+            }
+        });
+
+        $("#defaultForm").bootstrapValidator('addField','name',{
+            validators: {
+                notEmpty: {
+                    message: '联系人不能为空'
+                }
+            }
+        });
+
+        $("#defaultForm").bootstrapValidator('addField','phone',{
+            validators: {
+                notEmpty: {
+                    message: '联系方式不能为空'
+                },
+                stringLength: {
+                    min: 11,
+                    max: 11,
+                    message: '手机号码只能是11个字符'
+                },
+                regexp: {
+                    regexp: /^1[3|4|5|7|8][0-9]\d{4,8}$/,
+                    message: '不是正确的手机格式'
+                }
+            }
+        });
+
+        $("#defaultForm").bootstrapValidator('addField','explain',{
+            validators: {
+                notEmpty: {
+                    message: '需求描述不能为空'
+                }
+            }
+        });
+
+        $('#defaultForm').on('success.form.bv', function(e) {
+            // 阻止默认提交事件
+            e.preventDefault();
+
+            var $form = $(e.target);
+
+            var formData = new FormData();
+            formData.append("objectId", $('#objectId').val());
+            formData.append("type", $('#type option:selected').val());
+            formData.append("business", $('#business').val());
+            formData.append("personage", $('#personage').val());
+            formData.append("scale", $('#scale').val());
+            formData.append("name", $('#name').val());
+            formData.append("phone", $('#phone').val());
+            formData.append("description", $('#description').val());
+            formData.append("accessory", $('#accessory')[0].files[0]);
+            formData.append("communicateTime", getRadioBoxValue('communicateTime'));
+
+            $.ajax({
+                url : $form.attr('action'),
+                type : "post",
+                data : formData,
+                dataType : 'json',
+                cache : false,//上传文件无需缓存
+                processData : false,//用于对data参数进行序列化处理 这里必须false
+                contentType : false, //必须
+                success : function (result) {
+                    if(result.type == "alert"){
+                        alert(result.message);
+                    }
+
+                    //跳转到之前的页面
+                    window.location.href = "javascript:history.go(-1)";
+                },
+                error : function () {
+                    console.log("error")
+                }
+            });
+        });
+
+        function  getRadioBoxValue(radioName){
+            debugger
+            var obj = document.getElementsByName(radioName);  //这个是以标签的name来取控件
+                for(var i = 0; i < obj.length; i++){
+                   if(obj[i].checked){
+                       return obj[i].value;
+                   }
+                }
+            return "undefined";
+        }
+
+        $(function(){
+            var type = consult.type;
+            if (type == 1) {
+                $("#type").append('<option value="1">产品</option>');
+            } else if(type == 12) {
+                $("#type").append('<option value="2">解决方案</option>');
+            } else {
+                $("#type").append('<option value="3">优秀案例</option>');
+            }
+            //遍历
+            $("#type").attr("disabled",true);
+        });
+
+    </script>
+</div>
+</body>
+</html>

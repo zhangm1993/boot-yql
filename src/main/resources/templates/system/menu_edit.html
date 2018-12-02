@@ -1,0 +1,124 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">修改菜单</h4>
+</div>
+<form id="defaultForm" method="post" class="form-horizontal" action="/system/menu_save">
+    <div class="modal-body">
+        <input style="display: none" name="id" th:value="${menu.id}">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">菜单名称</label>
+            <div class="col-lg-5">
+                <input type="text" th:value="${menu.title}" class="form-control" name="title" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">菜单URL</label>
+            <div class="col-lg-5">
+                <input type="text" th:value="${menu.url}" class="form-control" name="url" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">父菜单</label>
+            <div class="col-lg-5">
+                <select id="parentUrl" class="form-control" name="parentMenu">
+                    <option value="">选择父菜单</option>
+                    <option th:if="${menu.type eq 1}" th:each="m:${menuParents}" th:value="${m.id}" th:text="${m.title}" th:selected="${menu.parentMenu != null && menu.parentMenu.id eq m.id}" ></option>
+                    <option th:if="${menu.type eq 2}" th:each="m:${menuChilds}" th:value="${m.id}" th:text="${m.title}" th:selected="${menu.parentMenu != null && menu.parentMenu.id eq m.id}" ></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">类型</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="type" onchange="changeType(this)">
+                    <option value="">选择类型</option>
+                    <option value="1" th:selected="${menu.type eq 1}">URL</option>
+                    <option value="2" th:selected="${menu.type eq 2}">按钮</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">排序</label>
+            <div class="col-lg-5">
+                <input type="text" th:value="${menu.sort}" class="form-control" name="sort" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">菜单样式</label>
+            <div class="col-lg-5">
+                <input type="text" th:value="${menu.cssClass}" class="form-control" name="cssClass" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">code</label>
+            <div class="col-lg-5">
+                <input type="text" th:value="${menu.code}" class="form-control" name="code" />
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<script th:inline="javascript">
+    var menuParents = [[${menuParents}]];
+    var menuChilds = [[${menuChilds}]];
+    function changeType(obj) {
+        $("#parentUrl").empty();
+        $("#parentUrl").append("<option value=''>选择父菜单</option>");
+        var result = $(obj).val();
+        if(result == 1){
+            for(x in menuParents){
+                var html = "<option value="+menuParents[x].id+">"+menuParents[x].title+"</option>";
+                $("#parentUrl").append(html);
+            }
+        }
+        if(result == 2){
+            for(x in menuChilds){
+                var html = "<option value="+menuChilds[x].id+">"+menuChilds[x].title+"</option>";
+                $("#parentUrl").append(html);
+            }
+        }
+    }
+
+    //表单初始化
+    initCheck();
+    $('#defaultForm').data('bootstrapValidator').enableFieldValidators('code',false);
+    //添加验证
+    $("#defaultForm").bootstrapValidator('addField','title',{
+        validators: {
+            notEmpty: {
+                message: '标题不能为空'
+            },
+            regexp: {
+                regexp: /^[\u4e00-\u9fa5·0-9A-z]+$/,
+                message: '不是正确的标题格式'
+            }
+        }
+    });
+    $("#defaultForm").bootstrapValidator('addField','type',{
+        validators: {
+            notEmpty: {
+                message: '类型不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','customer',{
+        validators: {
+            notEmpty: {
+                message: '公司不能为空'
+            }
+        }
+    });
+
+</script>

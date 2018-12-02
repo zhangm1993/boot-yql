@@ -1,0 +1,130 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">添加常见问题</h4>
+</div>
+<form id="iss_from" method="post" class="form-horizontal" action="/industry/issue_save">
+
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">排序</label>
+            <div class="col-lg-3">
+                <input type="number" class="form-control" value="0" name="sort"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">标题</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" name="title"/>
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+            <label class="col-lg-3 control-label">文档名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name"/>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-lg-2 control-label">内容</label>
+
+            <div id="iss_content" class="col-lg-10">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+</form>
+
+
+
+<script type="text/javascript" src="/wangEditor/release/wangEditor.min.js"></script>
+<style type="text/css">
+    .w-e-text {
+        padding: 0 10px;
+        overflow-y: scroll;
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .w-e-text-container {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .modal-dialog {
+        width: 800px;
+    }
+</style>
+<script th:inline="javascript">
+
+    var E = window.wangEditor;
+    var iss_content = new E('#iss_content');         //产品概述
+    iss_content.create();
+
+
+    $("#iss_from").bootstrapValidator({
+        live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+        excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
+        //submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+        message: '通用的验证失败消息',//好像从来没出现过
+        feedbackIcons: {//根据验证结果显示的各种图标
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            title: {
+                validators: {
+                    notEmpty: {//检测非空,radio也可用
+                        message: '标题不能为空'
+                    }
+                }
+            },
+            content: {
+                validators: {
+                    notEmpty: {//检测非空,radio也可用
+                        message: '内容不能为空'
+                    }
+                }
+            }
+        }
+    })
+
+    $('#iss_from').on('success.form.bv', function(e) {
+        // 阻止默认提交事件
+        e.preventDefault();
+        var $form = $(e.target);
+
+        console.log(iss_content.txt.html());
+        var data = {
+            title:$("#iss_from [name='title']").val(),
+            content:iss_content.txt.html(),
+            sort:$("#iss_from [name='sort']").val()
+        };
+
+        $.ajax({
+            url : $form.attr('action'),
+            type : "post",
+            data : data,
+            dataType : 'json',
+            success : function (result) {
+                if(result.type == "alert"){
+                    alert(result.message);
+                }
+                $("#modal").modal("hide");
+                //刷新跳转至第一页
+                // $("#dataTable").bootstrapTable("selectPage",1).bootstrapTable("refresh");
+                $("#dataTable").bootstrapTable("selectPage",1);
+            },
+            error : function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

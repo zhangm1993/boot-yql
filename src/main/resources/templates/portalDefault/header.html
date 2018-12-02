@@ -1,0 +1,134 @@
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml" >
+<div th:fragment="header">
+    <input type="hidden" id="http_url" th:value="${paHttp.remark}"/>
+    <div class="sytop1">
+        <div class="div1200">
+            <div>
+                <!--导航log-->
+                <div class="sytop2">
+                    <div class="img_logo">
+
+                    </div>
+                    <div class="font_logo">
+                        <span>翼联工业互联网平台</span>
+                    </div>
+                </div>
+                <span></span>
+                <div class="us_role dv_top">
+                    <a th:href="${control + '?PSID=' +  session.PSID}" target="view_window" class="w3-btn w3-hover-khaki w3-blue">控制台</a>
+                    <a href="/control_login" class="w3-btn w3-hover-khaki w3-blue" id="control_login">登录</a>
+                    <a id="welcome_user">
+                        <span class="user-info" id="userName">
+                        </span>
+                        <a href="/control_logout" id="control_logout">
+                            <i class="ace-icon fa fa-user"></i>
+                            退出
+                        </a>
+                    </a>
+
+                </div>
+                <ul class="w3-topnav w3-margin-bottom w3-large nav-mycss">
+                    <li><a href="../html/index.html" data-val="-1">首页</a></li>
+                    <li>
+                        <a href="javascript:void(0)" data-val="0">产品服务</a>
+                        <div class="syhhe" hidden>
+                            <div class="syhhe-f-pro">
+                                <div class="w3-left w3-col s4">
+                                    <div class="w3-row w3-right">
+                                        <div th:each="produceCl : ${producel}" class="syhhe-f-pro-left-content">
+                                            <div style="text-align: center;">
+                                                <h4 th:text="${produceCl.name}" style="width: 10em;line-height: 2em ; height: 2em; margin: 0; padding: 0;"></h4>
+                                            </div>
+                                            <div>
+                                                <ul class="pro-ul">
+                                                    <li class="pro-li" th:each="produceClf : ${produceCl.childList}" th:text="${produceClf.name}" th:value="${produceClf.id}" style="width: 10em; padding: 0; line-height: 3em ; height: 3em; margin: 0;"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w3-right w3-col s8">
+                                    <div class="w3-row w3-left">
+                                        <div class="pro-menu-info myfont12">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--<li><a href="javascript:void(0)" data-val="1">解决方案</a>-->
+                        <!--<div class="syhhe" hidden>-->
+                            <!--<div class="syhhe-f">-->
+                                <!--<ul class="solu_header">-->
+                                    <!--<li th:each="solu:${solutionsh.content}" class="myfont12">-->
+                                        <!--<a th:href="'solve_plan?id='+${solu.id}" th:text="${solu.name}"></a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <li><a href="example.html" data-val="2">优秀案例</a>
+                        <!--<div class="syhhe" hidden> <div class="syhhe-f">2</div></div>-->
+                    </li>
+                    <li><a href="document.html" data-val="3">开发者文档</a>
+
+                    </li>
+                    <!--<li><a href="news.html" data-val="4">新闻资讯</a>-->
+                        <!--&lt;!&ndash;<div class="syhhe" hidden> <div class="syhhe-f">4</div></div>&ndash;&gt;-->
+                    <!--</li>-->
+                </ul>
+
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript">
+    var user = [[${session.user}]];
+    var produce = [[${producesAll.content}]];
+
+    if (user != null) {
+        $("#control_login").hide();
+        $("#welcome_user").show();
+        $("#control_logout").show();
+        $("#userName").html("welcome, " + user.userName);
+    } else {
+        $("#control_login").show();
+        $("#welcome_user").hide();
+        $("#control_logout").hide();
+    }
+
+    $(".nav-mycss li").on({
+        mouseover : function(){
+            $(this).find(".syhhe").show();
+        } ,
+        mouseout : function(){
+            $(this).find(".syhhe").hide();
+        }
+    });
+
+    $(".pro-ul li").on({
+        mouseover : function(){
+
+            //清空所有选中样式
+            $(".pro-ul li").removeClass("checked-li");
+            //添加选中样式
+            $(this).addClass("checked-li");
+
+            //内容清空
+            $(".pro-menu-info").html("");
+            var id = $(this).attr("value");
+
+            //a标签
+            for (var index = 0; index < produce.length; index++) {
+                if (produce[index].secondCatel == id) {
+                    var a_tag = "<a href=\"product?id=" + produce[index].id + "\">" + produce[index].name + "</a>";
+                    $(".pro-menu-info").append(a_tag);
+                }
+            }
+        },
+        mouseout : function(){
+            // $(".pro-menu-info").html("");
+        }
+    });
+</script>
+</div>

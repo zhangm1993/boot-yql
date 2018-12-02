@@ -1,0 +1,119 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">添加角色</h4>
+</div>
+<form id="defaultForm" method="post" class="form-horizontal" action="/system/user_save">
+    <div class="modal-body">
+        <input style="display: none" name="id" th:value="${user.id}">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">用户名</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="loginName" th:value="${user.loginName}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">登录密码</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="password" th:value="${user.password}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">真实姓名</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" th:value="${user.name}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">性别</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="sex">
+                    <option value="1"  th:selected="${user.sex eq 1}" >男</option>
+                    <option value="2"  th:selected="${user.sex eq 2}" >女</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">手机号</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="telephone" th:value="${user.telephone}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">电话</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="mobile" th:value="${user.mobile}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">email</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="email" th:value="${user.email}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">角色</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="role">
+                    <option value="">选择角色</option>
+                    <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.role.id}" ></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">公司职务</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="jobTitle" th:value="${user.jobTitle}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">简介</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="remark" th:value="${user.remark}"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<script>
+    //表单初始化
+    initCheck();
+    //添加验证
+    $("#defaultForm").bootstrapValidator('addField','telephone',{
+        validators: {
+            notEmpty: {
+                message: '手机不能为空'
+            },
+            stringLength: {
+                min: 11,
+                max: 11,
+                message: '手机号码只能是11个字符'
+            },
+            regexp: {
+                regexp: /^1[3|4|5|8][0-9]\d{4,8}$/,
+                message: '不是正确的手机格式'
+            }
+        }
+    });
+    $("#defaultForm").bootstrapValidator('addField','role',{
+        validators: {
+            notEmpty: {
+                message: '角色不能为空'
+            }
+        }
+    });
+
+</script>

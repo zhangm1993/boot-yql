@@ -1,0 +1,520 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <!--<link rel="icon" type="image/x-icon" href="/image/favicon.ico" />-->
+    <style type="text/css">
+        @media (min-width: 768px){
+            .col-sm-offset-2 {
+                margin-left: 16.66666667%;
+            }
+            .col-sm-3 {
+                width: 25%;
+                float: left;
+                position: relative;
+                min-height: 1px;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+            .col-sm-5 {
+                width: 41.66666667%;
+                float: left;
+                position: relative;
+                min-height: 1px;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+
+            .dash-service-bg[_ngcontent-c1] {
+                background : #2B2B2B;
+                height: 540px;
+                width: 100%;
+                text-align: center;
+                background-size: cover;
+            }
+
+            .plat-web[_ngcontent-c1] {
+                display: inherit;
+            }
+
+        }
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1] {
+            width: 100%;
+            height: 100%;
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 0;
+            font-family: Microsoft Yahei;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] {
+            display: inline-block;
+            width: 33.333%;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1] {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]   a[_ngcontent-c1] {
+            display: block;
+            cursor: pointer;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]:first-child {
+            margin-right: 28px;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]:first-child   a[_ngcontent-c1]   img[_ngcontent-c1] {
+            display: block;
+            height: 57px;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]:first-child   a[_ngcontent-c1]   p[_ngcontent-c1] {
+            font-size: 16px;
+            font-family: Microsoft Yahei;
+            color: #0f5c9d;
+            margin: 10px 0 0;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]:first-child + div[_ngcontent-c1]   p[_ngcontent-c1] {
+            color: #feffff;
+            font-size: 30px;
+            font-family: Microsoft Yahei;
+            font-weight: bold;
+            line-height: 46px;
+            margin: 0 0 5px 0;
+        }
+
+        .h-bannerB[_ngcontent-c1]   ul[_ngcontent-c1]   li[_ngcontent-c1] > div[_ngcontent-c1]:first-child + div[_ngcontent-c1]   .floor-btn[_ngcontent-c1]   a[_ngcontent-c1] {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .dash-service-cloud[_ngcontent-c1] {
+            height: 120px;
+            width: 90%;
+            text-align: left;
+            background-color: #415669;
+        }
+
+        .dash-service[_ngcontent-c1]   [_ngcontent-c1]:hover {
+            background: linear-gradient(to left, #2ac0eb, #40c3b2);
+        }
+
+        .dash-cloud-i[_ngcontent-c1] {
+            width: 58px;
+            height: 65px;
+            margin-left: 50px;
+            margin-top: 20px;
+        }
+
+        .dash-cloud-label[_ngcontent-c1] {
+            font-size: 20px;
+            font-family: Microsoft Yahei;
+            color: white;
+            margin-left: 15px;
+            font-weight: 300;
+        }
+
+        .dash-cloud-div-text[_ngcontent-c1] {
+            color: white;
+            font-size: 16px;
+            font-family: Microsoft Yahei;
+            padding: 2px 0px 2px 0px;
+        }
+
+        ---------------------------合作伙伴---------------------------------
+        @media screen and (max-width:768px){
+            .qc-grids.with-slot{
+                margin-right:20px;margin-left:20px
+            }
+        }
+
+        .qc-grids {
+            display: inline-block;
+            zoom: 1;
+            letter-spacing: normal;
+            word-spacing: normal;
+            vertical-align: top;
+            box-sizing: border-box;
+        }
+
+        .mod-content{
+            margin-top:60px
+        }
+
+        .mask {
+            width: 100%;
+            height: 385px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .ct-list{
+            position:static;width:auto
+        }
+
+        .certification-item {
+            margin-bottom: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .qc-unit-6-24{
+            width:25%
+        }
+
+        .vertical-text {
+            text-align: center;
+            padding-top: 30px
+        }
+
+        .ct-box {
+            border: 1px solid #dbdbdb;
+            background-color: white;
+            display: block;
+            height: 100px;
+            -webkit-transition: all .2s linear;
+            transition: all .2s linear
+        }
+
+        .ct-img {
+            display: block;
+            margin: 0 auto 15px;
+            max-width: 100%;
+            height: auto
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <div class="home-t">
+            <div class="home-banner home-bannerg">
+
+                <ul class="home-banner-change">
+                    <li class="">1</li>
+                    <li class="">2</li>
+                    <li class="">3</li>
+                    <li class="on">4</li>
+                    <li>5</li>
+                </ul>
+                <ul class="home-banner-list">
+                    <li class="lunboli" th:each="carx : ${carousels}" style="text-align: center">
+                        <div th:style="'backgorund:'+${carx.pictureBackground}">
+                        <div class="home-title">
+                            <div style="height: 240px;padding-left:10px" class="w3-text-sand">
+                                <h2 th:text="${carx.title}">商品的标题</h2>
+                                <p th:utext="${carx.description}">商品的一句话简介Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient monte</p>
+                            </div>
+                            <!--<div class="home-title-btnd">-->
+                                <!--<a class="w3-btn w3-hover-khaki w3-blue">立即申请</a>-->
+                            <!--</div>-->
+                        </div>
+
+                        <a th:href="${carx.categoryUrl}" class="a-lun">
+                            <img th:src="${paHttp.remark+carx.pictureUrl}" height="400px" width="1520px"/>
+                        </a>
+                        </div>
+                    </li>
+                   <!-- <li class="lunboli">
+                        <a style="height: 400px;background:url('/portal/images/d-bj2.png');display: block;"></a>
+                    </li>
+                    <li class="lunboli">
+                        <a style="height: 400px;background:url('/portal/images/d-bj3.png');display: block;"></a>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    <div class="index_banb" >
+        <div class="div1200 index_band" >
+            <div class="w3-row" style="margin: 0 auto;">
+                <!--<div class="w3-col s2 w3-center in_box1" th:each="feat,obj : ${featureIndex}" th:if="${obj.index<5}">-->
+                    <!--<div style="width: 96%;height: 90px;margin:0 0 0 4%">-->
+                        <!--<a th:attr="href=${feat.featureUrl}"-->
+                           <!--target="_blank">-->
+                            <!--<div style="float:left;width:50px;margin-top:20px"><img th:src="${paHttp.remark+feat.pictureUrl}" width="50" height="50"/></div>-->
+                            <!--<div style="float:left;" class="w3-text-sand">-->
+                                <!--<h3 th:text="${feat.title}"></h3>-->
+                                <!--<p th:text="${feat.description}"></p>-->
+                            <!--</div>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="w3-col s3 w3-center in_box1">
+                    <div style="height: 90px;margin:0 0 0 25%">
+                        <a href="javascript:void(0);" target="_blank">
+                            <div style="float:left;width:50px;margin-top:1em"><img src="/image/icon1.png" width="50" height="50"/></div>
+                            <div style="float:left;" class="w3-text-sand">
+                                <div style="display: flex;">
+                                    <p th:text="${p1.name}" style="color: #006dcc; font-size: 2.5em"></p>
+                                    <p style="color: #006dcc; font-size: 1em;margin: 15% 0 0 0!important;">人</p>
+                                </div>
+                                <p th:text="${p1.remark}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w3-col s3 w3-center in_box1">
+                    <div style="height: 90px;margin:0 0 0 25%">
+                        <a href="javascript:void(0);" target="_blank">
+                            <div style="float:left;width:50px;margin-top:1em"><img src="/image/icon2.png" width="50" height="50"/></div>
+                            <div style="float:left;" class="w3-text-sand">
+                                <div style="display: flex;">
+                                    <p th:text="${p2.name}" style="color: #006dcc; font-size: 2.5em"></p>
+                                    <p style="color: #006dcc; font-size: 1em;margin: 15% 0 0 0!important;">个</p>
+                                </div>
+                                <p th:text="${p2.remark}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w3-col s3 w3-center in_box1">
+                    <div style="height: 90px;margin:0 0 0 25%">
+                        <a href="javascript:void(0);" target="_blank">
+                            <div style="float:left;width:50px;margin-top:1em"><img src="/image/icon3.png" width="50" height="50"/></div>
+                            <div style="float:left;" class="w3-text-sand">
+                                <div style="display: flex;">
+                                    <p th:text="${p3.name}" style="color: #006dcc; font-size: 2.5em"></p>
+                                    <p style="color: #006dcc; font-size: 1em;margin: 15% 0 0 0!important;">TB</p>
+                                </div>
+                                <p th:text="${p3.remark}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w3-col s3 w3-center in_box2">
+                    <div style="height: 90px;margin:0 0 0 25%">
+                        <a href="javascript:void(0);" target="_blank">
+                            <div style="float:left;width:50px;margin-top:1em"><img src="/image/icon4.png" width="50" height="50"/></div>
+                            <div style="float:left;" class="w3-text-sand">
+                                <div style="display: flex;">
+                                    <p th:text="${p4.name}" style="color: #006dcc; font-size: 2.5em"></p>
+                                    <p style="color: #006dcc; font-size: 1em;margin: 15% 0 0 0!important;">台</p>
+                                </div>
+                                <p th:text="${p4.remark}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div style="clear: both;height: 2px;width: 100%"></div>
+    <section class="w3-container">
+     
+        <div class="div1200">
+            <!--产品服务-->
+            <div class="index_bt">
+                <h1 class="w3-center c_hui" style="position:relative">
+                <i class="i-home-left"></i>产品服务<i class="i-home-left i-right"></i></h1>
+                <h4>Product service</h4>
+            </div>
+            <div style="clear: both;height: 10px;width: 100%"></div>
+            <div _ngcontent-c1="" class="dash-service-bg plat-web" th:style="'background-image: url(' + ${paHttp.remark + serverManagers[0].backgroundUrl} + ');'">
+                <div _ngcontent-c1="" class="col-sm-3 dash-service" style="padding:0">
+                    <div _ngcontent-c1="" class="dash-service-cloud"
+                         th:each="serverManager,obj:${serverManagers}" th:data-url="${'cloud0' + obj.index}" th:backG="${paHttp.remark + serverManager.backgroundUrl}">
+                        <img _ngcontent-c1="" class="dash-cloud-i" th:src="${paHttp.remark + serverManager.pictureUrl}">
+                        <label _ngcontent-c1="" class="dash-cloud-label" th:text="${serverManager.name}">区域云</label>
+                    </div>
+                </div>
+                <div _ngcontent-c1="" class="col-sm-5" style="margin-top:30px;text-align:left;">
+                    <div _ngcontent-c1="" id="cloud-text" class="dash-cloud-div-text" style="display: block;" th:utext="${serverManagers[0].description}">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!--解决方案-->
+    <!--<div style="height: 30px;clear:both"></div>-->
+   <div class="bghui">
+        <div class="box_1200">
+            <div class="solve">
+                <h1>优秀案例</h1>
+                <h2 id="solu_titi">优秀案例</h2>
+                <p id="solu_infoi"></p>
+                <a id="rolve-left" data-val="0" class="prev w3-btn w3-blue" href="javascript:void(0)"><i class="fa fa-angle-left" style="font-size: 30px"></i></a>
+                <a id="rolve-right" data-val="1" class="next w3-btn w3-blue" href="javascript:void(0)"><i class="fa fa-angle-right" style="font-size: 30px"></i></a>
+            </div>
+            <div style="position: relative;width:380px;height:480px;float:left; z-index:99">
+                <a th:data-val="${case.description}" th:each="case,obj:${cases}" th:href="'example-detail?id='+${case.id}" th:title="${case.name}"  th:class="${obj.index==0}? 'jk-a on-show':'jk-a'">
+                    <img th:src="${paHttp.remark+case.homeUrl}" width="352" height="449"/>
+                </a>
+                <!--<a th:each="case,obj:${cases}" th:href="'solve_plan?id='+${case.id}" th:title="${case.name}"  class="jk-a">-->
+                    <!--<img th:src="${paHttp.remark+case.homeUrl}" width="352" height="449"/>-->
+                <!--</a>-->
+            </div>
+            <div class="home-jkp" style="width:600px;float:right;height:450px;overflow: hidden;position:absolute; z-index:1; margin-top:45px; right:0;">
+                <ul class="home-jk" style="position: relative">
+                    <li th:each="case,obj:${cases}"><a th:href="'example-detail?id='+${case.id}" th:title="${case.name}" class="jk-b"> <img th:src="${paHttp.remark+case.homeUrl}" width="240" height="310" th:data-val="${obj.index}"/></a></li>
+                    <li th:each="case,obj:${cases}"><a th:href="'example-detail?id='+${case.id}" th:title="${case.name}" class="jk-b"> <img th:src="${paHttp.remark+case.homeUrl}" width="240" height="310" th:data-val="${obj.index}"/></a></li>
+                </ul>
+                <a class="prev" style="left:-100px" href="javascript:void(0)"></a>
+                <a class="next" style="left:-100px" href="javascript:void(0)"></a>
+            </div>
+        </div>
+   </div>
+
+    <section class="w3-container">
+        <div class="div1200">
+
+             <div class="index_bt">
+                <h1 class="w3-center c_hui" style="position:relative">
+                <i class="i-home-left"></i>合作伙伴<i class="i-home-left i-right"></i></h1>
+                <h4>Cooperative partner</h4>
+            </div>
+
+            <div class="mod-content qc-grids with-slot">
+                <div class="mask J-mask">
+                    <div class="ct-list J-listContainer" style="left: 0;width:100%">
+                        <div class="certification-item qc-unit-6-24" style="max-width: 170px; width: 170px;float:left" th:each="partner,obj:${partners}">
+                            <div class="vertical-text ct-box unit-box">
+                                <img class="ct-img" th:src="${paHttp.remark + partner.pictureUrl}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+        <script th:inline="javascript">
+            $(function(){
+                add_top();
+
+                $(".pros-siz").each(function(){
+
+                    var txt=$(this).text();
+                    var len=txt.length;
+                    if(len>50){
+                        $(this).text(txt.substring(0,50)+"...");
+                    }
+
+                });
+                /*导航js*/
+                // $(".nav-mycss li").on({
+                //     mouseover : function(){
+                //         $(this).find(".syhhe").show();
+                //     } ,
+                //     mouseout : function(){
+                //         $(this).find(".syhhe").hide();
+                //     }
+                // });
+                /*轮播图大图js*/
+                $(".home-banner").slide({
+                    titCell: ".home-banner-change",
+                    mainCell: ".home-banner-list",
+                    effect: "fold",
+                    autoPlay: true,
+                    autoPage: true,
+                    trigger: "click"
+                });
+
+                // 解决方案无缝滚动
+                jQuery(".home-jkp").slide({ mainCell:"ul", effect:"leftMarquee", vis:5, autoPlay:true, interTime:50, switchLoad:"_src" });
+
+                //大图添加鼠标事件
+                $(".home-main-jk").on({
+                    mouseover:function(){
+                        $(".home-jk").mouseover();
+                    },
+                    mouseout:function(){
+                        $(".home-jk").mouseout();
+                    }
+                });
+
+                //无缝滚动图片添加鼠标事件
+                $(".jk-b img").on({
+                    mouseover:function(){
+                        // onshow(true);
+                        var imgv=$(this).data("val");
+                        $(".jk-a").removeClass("on-show");
+                        $(".jk-a").eq(imgv).addClass("on-show");
+                        titl();
+                    },
+                    mouseout:function(){}
+                });
+
+                $("#rolve-left").on({
+                    click:function(){
+                        move_img('left')
+                        $(".home-jkp .next").mousedown();
+
+                        titl();
+
+                    },
+                    mouseout:function(){
+                        //onshow(false);
+                        $(".home-jkp .next").mouseup();
+                    }
+                })
+                $("#rolve-right").on({
+                    click:function(){
+                        move_img('right');
+
+                        $(".home-jkp .prev").mousedown();
+                        titl();
+                    },
+                    mouseout:function(){
+                        //onshow(false);
+                        $(".home-jkp .prev").mouseup();
+                    }
+                });
+            });
+
+            /**
+             * 设置显示标题与简介
+             */
+            function titl(){
+                var txt=$(".on-show").data("val");
+
+                var tit=$(".on-show").attr("title");
+                $("#solu_titi").text(tit);
+                $("#solu_infoi").html(txt);
+            }
+
+            /**
+             * 鼠标事件
+             */
+            $(".dash-service-cloud").bind("mouseover", function () {
+                var serverManagers = [[${serverManagers}]];
+                $("#cloud-text").html("");
+                var url = $(this).attr('data-url');
+                var backgroundUrl = $(this).attr('backG');
+                switch (url) {
+                    case "cloud00":
+                        $(".dash-service-bg").css("background-image", "url('" + backgroundUrl + "')");
+                        $("#cloud-text").html(serverManagers[0].description);
+                        break;
+                    case "cloud01":
+                        $(".dash-service-bg").css("background-image", "url('" + backgroundUrl + "')");
+                        $("#cloud-text").html(serverManagers[1].description);
+                        break;
+                    case "cloud02":
+                        $(".dash-service-bg").css("background-image", "url('" + backgroundUrl + "')");
+                        $("#cloud-text").html(serverManagers[2].description);
+                        break;
+                    case "cloud03":
+                        $(".dash-service-bg").css("background-image", "url('" + backgroundUrl + "')");
+                        $("#cloud-text").html(serverManagers[3].description);
+                        break;
+                }
+            });
+
+            $(".dash-service-cloud").bind("mouseout", function () {
+            });
+
+        </script>
+    </div>
+
+</body>
+</html>

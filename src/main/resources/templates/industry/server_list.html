@@ -1,0 +1,166 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <style>
+        .modal-dialog {
+            width: 800px !important;
+        }
+    </style>
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">产品服务管理</li>
+            </ul>
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <input class="search-data" name="Q_LIKE_name" type="text" placeholder="名称" >
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" href="/industry/server_add" data-target="#modal">新增</a>
+                    <a type="button" onclick="editData('/industry/server_edit','id')" class="btn btn-info">修改</a>
+                    <a type="button" onclick="delPartner()" class="btn btn-danger">删除</a>
+                </div>
+                <table id="dataTable" data-url="/industry/server_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="15" data-cache="false">
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'name',
+            align: 'center',
+            title: '名称'
+        },{
+            field: 'createTime',
+            align: 'center',
+            title: '创建时间',
+            formatter : function(value,row,index){
+                return formatTimeStrap(value);
+            }
+        },{
+            field: 'createUser.name',
+            align: 'center',
+            title: '创建人'
+        },{
+            field: 'status',
+            title: '状态',
+            align: 'center',
+            formatter:function (value, row, index) {
+                if(row.status == 0){
+                    return '<p style="color: #00BE67">未上线</p>';
+                }
+                if(row.status == 1){
+                    return '<p style="color: #66ACFF">已上线</p>';
+                }
+            }
+        },{
+            field: 'status',
+            title: '操作',
+            width : '10%',
+            align: 'center',
+            formatter: operateFormatter
+        }];
+
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+
+        function operateFormatter(value, row, index) {
+            var status = row.status;
+            if (status == '0') {           //未上线
+                return ['<button class="btn btn-xs btn-info" onclick="updateStatus(1, ' + row.id + ')">上线</button>'].join('');
+            } else if (status == '1'){    //已上线
+                return ['<button class="btn btn-xs btn-danger" onclick="updateStatus(0, ' + row.id + ')">下线</button>'].join('');
+            }
+        }
+
+        //上下线操作  1:上线 0:下线
+        function updateStatus (status, id) {
+            $.ajax({
+                url : '/industry/server_status_update',
+                type : 'post',
+                traditional : true,
+                data : {
+                    id : id,
+                    status : status
+                },
+                dataType : 'json',
+                success : function(result){
+                    if(result.type == "alert"){
+                        alert(result.message);
+                    }
+                    $("#dataTable").bootstrapTable("selectPage",1);
+                },
+                error : function () {
+                    alert("操作失败");
+                }
+            });
+        }
+
+        function delPartner() {
+            var table = $("#dataTable").bootstrapTable('getSelections');
+            var ids = [];
+            var upLine = [];
+            for(var i = 0; i < table.length;i++){
+                ids.push(table[i].id);
+                if (table[i].status == "1") {
+                    upLine.push(table[i].name);
+                }
+            }
+            if (upLine.length > 0) {
+                if(confirm("您选中的产品服务[" + upLine.toString() + "]已上线,是否进行删除")) {
+                    deletePartnerAjax(ids);
+                } else {
+                    return;
+                }
+            } else {
+                deletePartnerAjax(ids);
+            }
+        }
+
+        function deletePartnerAjax(ids) {
+            $.ajax({
+                url : "/industry/server_delete",
+                type : 'post',
+                traditional : true,
+                data : {
+                    ids : ids
+                },
+                dataType : 'json',
+                success : function(result){
+                    if(result.type == "alert"){
+                        alert(result.message);
+                    }
+                    $("#dataTable").bootstrapTable("selectPage", 1);
+                },
+                error : function () {
+                    alert("删除失败");
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

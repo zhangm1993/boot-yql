@@ -1,0 +1,29 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="home-t" th:style="'background:'+${company.pictureBackground}">
+        <div class="home-banner">
+            <div class="home-title">
+                <div style="height: 240px;padding-left:10px">
+                    <h2 th:text="${company.title}"></h2>
+                </div>
+            </div>
+            <ul class="home-banner-list">
+                <li class="lunboli">
+                    <a style="height: 400px;display: block;width: 1520px;text-align:center">
+                        <img th:src="${paHttp.remark + company.pictureUrl}" height="400"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <section class="margin-tm">
+        <div class="solve-c">
+            <div class="div1200">
+                <div th:utext="${company.content}"></div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

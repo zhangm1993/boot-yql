@@ -1,0 +1,60 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+<section class="w3-container margin-tm">
+    <div class="div1200">
+        <div class="new-home-left">
+           <h2 id="title" th:text="${newsInformation.name}">文章标题</h2>
+            <p class="w3-right-align myp"><span id="author" th:text="${newsInformation.createUser.name}">作者信息</span>|<span id="date" th:text="${newsInformation.createDate}">时间</span></p>
+            <div id="content" th:utext="${newsInformation.content}">
+            </div>
+        </div>
+        <div class="new-home-right" >
+            <ul >
+                <li th:each="produce : ${produces}">
+                    <div class="w3-center bar-div3">
+                        <a th:href="'product?id=' + ${produce.id}"> <img th:src="${paHttp.remark + produce.pictureUrl}" width="380" height="220"/></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</section>
+
+<script>
+    $(function(){
+        add_top();
+        /*导航js*/
+        // $(".nav-mycss li").on({
+        //     mouseover : function(){
+        //         $(this).find(".syhhe").show();
+        //     } ,
+        //     mouseout : function(){
+        //         $(this).find(".syhhe").hide();
+        //     }
+        // });
+        /*轮播图大图js*/
+        $(".home-banner").slide({
+            titCell: ".home-banner-change",
+            mainCell: ".home-banner-list",
+            effect: "fold",
+            autoPlay: true,
+            autoPage: true,
+            trigger: "click"
+        });
+
+        /**
+         *  获取新闻内容
+         */
+
+        select_new_content();
+    });
+
+    function select_new_content(id){
+
+    }
+</script>
+</div>
+</body>
+</html>

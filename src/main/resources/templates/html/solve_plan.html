@@ -1,0 +1,99 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="home-t" th:style="'background:'+${solution.pictureBackground}">
+        <div class="home-banner">
+            <div class="home-title">
+                <div style="height: 240px;padding-left:10px">
+                    <h2 th:text="${solution.title}">商品的标题</h2>
+                    <p th:utext="${solution.description}"></p>
+                </div>
+                <div class="home-title-btnd">
+                    <a class="w3-btn w3-hover-khaki w3-blue" th:href="${'/html/consult?type=2&id=' + solution.id}">立即咨询</a>
+                </div>
+            </div>
+          <!--  <ul class="home-banner-change">
+                <li class="">1</li>
+                <li class="">2</li>
+                <li class="">3</li>
+                <li class="on">4</li>
+                <li>5</li>
+            </ul>-->
+            <ul class="home-banner-list">
+                <li class="lunboli">
+                    <!--<a style="height: 400px;background:url('/portal/images/d-bj.png');display: block;"></a>-->
+
+                        <a class="a-lun" style="text-align: center">
+                            <img th:src="${paHttp.remark+solution.pictureUrl}" height="400"/>
+                        </a>
+                </li>
+               <!-- <li class="lunboli">
+                    <a style="height: 400px;background:url('/portal/images/d-bj2.png');display: block;"></a>
+                </li>
+                <li class="lunboli">
+                    <a style="height: 400px;background:url('/portal/images/d-bj3.png');display: block;"></a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+    <section class="margin-tm">
+        <div class="solve-c">
+            <div class="div1200">
+                <div style="text-align: center;margin: 0 0 60px;"><h2 class="div1200">解决问题</h2></div>
+                <div th:utext="${solution.solveProblem}">
+               </div>
+            </div>
+        </div>
+        <div class="solve-c bj-jj">
+            <div class="div1200">
+                <div style="text-align: center;margin: 0 0 60px;"><h2 class="div1200">提供服务</h2></div>
+                <div th:utext="${solution.provideService}"></div>
+            </div>
+        </div>
+        <div class="solve-c">
+            <div class="div1200">
+                <div style="text-align: center;margin: 0 0 60px;"><h2 class="div1200">应用实践</h2></div>
+                <div th:utext="${solution.application}"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer></footer>
+    <script>
+        $(function(){
+            add_top();
+
+              /*  var str=`<div style="height: 240px;padding-left:10px">
+                            <h2>方案标题</h2>
+                            <p>商品的一句话简介Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient monte</p>
+                        </div>
+                        <div class="home-title-btnd">
+                          <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=158820718&site=qq&menu=yes"><span border="0" class="w3-btn w3-green"  title="立即咨询">立即咨询</span></a>
+                        </div>`;
+
+                $(".home-title").empty().append(str);
+*/
+                /*导航js*/
+                // $(".nav-mycss li").on({
+                //     mouseover : function(){
+                //         $(this).find(".syhhe").show();
+                //     } ,
+                //     mouseout : function(){
+                //         $(this).find(".syhhe").hide();
+                //     }
+                // });
+                /*轮播图大图js*/
+               /* $(".home-banner").slide({
+                    titCell: ".home-banner-change",
+                    mainCell: ".home-banner-list",
+                    effect: "fold",
+                    autoPlay: true,
+                    autoPage: true,
+                    trigger: "click"
+                });
+*/
+        })
+    </script>
+</div>
+</body>
+</html>

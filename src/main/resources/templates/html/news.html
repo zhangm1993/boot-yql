@@ -1,0 +1,213 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="home-t">
+        <div class="home-banner">
+            <ul class="home-banner-change">
+                <li class="">1</li>
+                <li class="">2</li>
+                <li class="">3</li>
+                <li class="on">4</li>
+                <li>5</li>
+            </ul>
+            <ul class="home-banner-list">
+                <li class="lunboli" th:each="carx : ${caseNews}" style="text-align: center" >
+                    <div th:style="'backgorund:'+${carx.pictureBackground}">
+                    <div class="home-title">
+                        <div style="height: 240px;padding-left:10px" class="w3-text-sand">
+                            <h2 th:text="${carx.title}">商品的标题</h2>
+                            <p th:utext="${carx.description}">商品的一句话简介Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient monte</p>
+                        </div>
+                        <!--<div class="home-title-btnd">-->
+                            <!--<a class="w3-btn w3-hover-khaki w3-blue">立即申请</a>-->
+                        <!--</div>-->
+                    </div>
+
+                    <a th:href="${carx.categoryUrl}" class="a-lun">
+                        <img th:src="${paHttp.remark+carx.pictureUrl}" height="400px" width="1520px"/>
+                    </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <section class="w3-container margin-tm">
+            <div class="div1200">
+                <div class="new-home-left">
+                    <ul class="w3-row new-home-left-top" id="type_ul">
+                        <li class="w3-col s3">
+                            <div class="w3-center w3-padding-4">
+                                <a class="tx-h80" data-typeid="" onclick="type_select_doc(this)"><img src="/portal/images/new-1.png" width="108"/></a>
+                                <p class="type">???</p>
+                            </div>
+                        </li>
+                        <li class="w3-col s3">
+                            <div class="w3-center w3-padding-4">
+                                <a class="tx-h80" data-typeid="" onclick="type_select_doc(this)"><img src="/portal/images/new-2.png" width="108"/></a>
+                                <p class="type">???</p>
+                            </div>
+                        </li>
+                        <li class="w3-col s3">
+                            <div class="w3-center w3-padding-4">
+                                <a class="tx-h80" data-typeid="" onclick="type_select_doc(this)"><img src="/portal/images/new-3.png" width="108"/></a>
+                                <p class="type">???</p>
+                            </div>
+                        </li>
+                        <li class="w3-col s3">
+                            <div class="w3-center w3-padding-4">
+                                <a class="tx-h80" data-typeid="" onclick="type_select_doc(this)"><img src="/portal/images/new-4.png" width="108"/></a>
+                                <p class="type">???</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div style="clear:both"></div>
+                        <ul class="new-info-left" id="news_ul">
+                            <!--<li>-->
+                                <!--<i class="new-info-br"></i>-->
+                                <!--<div class="new-info-f">-->
+                                    <!--<h3>标题1</h3>-->
+                                    <!--<div class="w3-row bott-bor">-->
+                                        <!--<div class="w3-col s2 w3-border-right">作者&#45;&#45;&#45;&#45;</div>-->
+                                        <!--<div class="w3-col s4 w3-center">时间yyyy/mm/ss</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</li>-->
+                        </ul>
+                        <div class="w3-pagination w3-border w3-round"></div>
+                    <p class="w3-center txt-font"></p>
+                    </div>
+                <div class="new-home-right">
+                    <ul >
+                        <li th:each="produce : ${produces}">
+                            <div class="w3-center bar-div3">
+                               <a th:href="'product?id=' + ${produce.id}"> <img th:src="${paHttp.remark + produce.pictureUrl}" width="380" height="220"/></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </section>
+
+        <script>
+            $(function(){
+                add_top();
+
+                /*导航js*/
+                // $(".nav-mycss li").on({
+                //     mouseover : function(){
+                //         $(this).find(".syhhe").show();
+                //     } ,
+                //     mouseout : function(){
+                //         $(this).find(".syhhe").hide();
+                //     }
+                // });
+                /*轮播图大图js*/
+                $(".home-banner").slide({
+                    titCell: ".home-banner-change",
+                    mainCell: ".home-banner-list",
+                    effect: "fold",
+                    autoPlay: true,
+                    autoPage: true,
+                    trigger: "click"
+                });
+
+                /**
+                 * 加载新闻资讯数据
+                 * */
+                select_doc();
+            });
+
+            function select_doc(typeId,pageNum,pageSize){
+
+                if(!typeId){  //类型id
+                    typeId=0; //如果是0说明全部查询，
+                }
+
+                if(!pageNum){  //从第几行开始
+                    pageNum=0
+                }
+                if(!pageSize){ //每页多少行
+                    pageSize=10                }
+
+                $.ajax({
+                    type: "post",
+                    url: "news_main",
+                    data: {
+                        typeId:typeId,
+                        pageNum:pageNum,
+                        pageSize:pageSize
+                    },
+                    dataType:"json",
+                    success: function(data){
+                        $("#news_ul li").remove();
+
+                        var parameters = data.parameters;
+                        var newsInformationPage = data.newsInformationPage;
+                        var newsInformationList = newsInformationPage.content;
+                        //加载分类名，分类的ID
+                        for(var i=0;i<parameters.length;i++){
+                            $("#type_ul li .type").eq(i).html(parameters[i].name);
+                            $("#type_ul li a").eq(i).attr("data-typeid",parameters[i].id)
+                        }
+
+                        //加载新闻
+                        var str_doc="";
+                        for(var i=0;i<newsInformationList.length;i++){
+                            str_doc +='<li><a href="news-detail?id='+newsInformationList[i].id+'"  target="_Blank"><i class="new-info-br"></i>'
+                                    +'<div class="new-info-f">'
+                                    +'<h3>'+newsInformationList[i].name+'</h3>'
+                                    +'<div class="w3-row bott-bor">'
+                                    +'<div class="w3-col s2 w3-border-right">'+newsInformationList[i].createUserName+'</div>'
+                                    +'<div class="w3-col s4 w3-center">'+newsInformationList[i].createDate+'</div>'
+                                    +'</div></div></a></li>';
+                        }
+                        $("#news_ul").append(str_doc);
+
+                        //分页功能
+                        pagination_doc(newsInformationPage.number,newsInformationPage.totalPages,select_doc,typeId);
+
+                        var obj=data.newsInformationPage;
+                        $.extend(obj,{path:'.txt-font'});
+                        page_font_com(obj);
+                    }
+                });
+            }
+
+            /**
+             *
+             * 分页的帮助文档
+             * */
+            function pagination_doc(pageNum,totalPages,callback,typeId){
+                console.log(pageNum);
+
+                if(!pageNum||pageNum==0){
+                    pageNum=0;
+                }
+
+                $('.w3-pagination').pagination({
+                    pageCount:totalPages,// 总页数
+                    current:pageNum+1,
+                    coping: true,
+                    homePage: '«',
+                    endPage: '»',
+                    prevContent: '上一页',
+                    nextContent: '下一页',
+                    callback: function (api) {
+                        console.log(api.getCurrent());
+                        callback(typeId,api.getCurrent()-1,10);
+
+                        $("html,body").animate({ scrollTop: 600 }, 1000);
+                    }
+                });
+            }
+
+            function type_select_doc(obj){
+                var typeId = $(obj).data("typeid");
+                select_doc(typeId)
+            }
+
+        </script>
+        </div>
+    </body>
+</html>

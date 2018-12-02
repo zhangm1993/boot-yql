@@ -1,0 +1,208 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">新增解决方案</h4>
+</div>
+
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/solution_save">
+
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">方案名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" id="name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">详情图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="picture" name="picture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">图片背景颜色</label>
+            <div class="col-lg-5">
+                <input type="text" class="inp required" name="pictureBackground" id="pictureBackground"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">简介图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="homePicture" name="homePicture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">方案标题</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="title" id="title"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">方案简介</label>
+            <div class="col-lg-5">
+                <textarea  class="form-control" name="description" id="description"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">解决问题:</label>
+        </div>
+        <div class="form-group">
+            <div id="solveProblem" name="solveProblem" style="height:200px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">提供服务:</label>
+        </div>
+        <div class="form-group">
+            <div id="provideService" name="provideService" style="height:200px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">应用实践:</label>
+        </div>
+        <div class="form-group">
+            <div id="application" name="application" style="height:200px">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<style type="text/css">
+    .w-e-text {
+        padding: 0 10px;
+        overflow-y: scroll;
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .w-e-text-container {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100% !important;
+        height: 180px !important;
+    }
+</style>
+<script th:inline="javascript">
+
+    var E = window.wangEditor;
+    var solveProblemEditor = new E('#solveProblem');         //解决问题
+    solveProblemEditor.customConfig.uploadImgShowBase64 = true;
+    solveProblemEditor.create();
+
+    var provideServiceEditor = new E('#provideService');     //提供服务
+    provideServiceEditor.customConfig.uploadImgShowBase64 = true;
+    provideServiceEditor.create();
+
+    var applicationEditor = new E('#application');           //应用实践
+    applicationEditor.customConfig.uploadImgShowBase64 = true;
+    applicationEditor.create();
+
+    $("#pictureBackground").bigColorpicker(function(el, color) {
+        $(el).val(color);
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','name',{
+        validators: {
+            notEmpty: {
+                message: '方案名称不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','picture',{
+        validators: {
+            notEmpty: {
+                message: '详情图片不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','homePicture',{
+        validators: {
+            notEmpty: {
+                message: '简介图片不能为空'
+            }
+        }
+    });
+
+    // $("#defaultForm").bootstrapValidator('addField','pictureBackground',{
+    //     validators: {
+    //         notEmpty: {
+    //             message: '图片背景颜色不能为空'
+    //         }
+    //     }
+    // });
+
+
+    $("#defaultForm").bootstrapValidator('addField','title',{
+        validators: {
+            notEmpty: {
+                message: '标题不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','description',{
+        validators: {
+            notEmpty: {
+                message: '方案简介不能为空'
+            }
+        }
+    });
+
+    $('#defaultForm').on('success.form.bv', function(e) {
+        // 阻止默认提交事件
+        e.preventDefault();
+
+        var $form = $(e.target);
+
+        var solveProblem = solveProblemEditor.txt.html();
+        var provideService = provideServiceEditor.txt.html();
+        var application = applicationEditor.txt.html();
+
+        var formData = new FormData();
+        formData.append("solveProblem", solveProblem);
+        formData.append("provideService", provideService);
+        formData.append("application", application);
+        formData.append("picture", $('#picture')[0].files[0]);
+        formData.append("homePicture", $('#homePicture')[0].files[0]);
+        formData.append("name", $('#name').val());
+        formData.append("title", $('#title').val());
+        formData.append("description", $('#description').val());
+        formData.append("pictureBackground", $('#pictureBackground').val());
+
+        $.ajax({
+            url : $form.attr('action'),
+            type : "post",
+            data : formData,
+            dataType : 'json',
+            cache : false,//上传文件无需缓存
+            processData : false,//用于对data参数进行序列化处理 这里必须false
+            contentType : false, //必须
+            success : function (result) {
+                if(result.type == "alert"){
+                    alert(result.message);
+                }
+                $("#modal").modal("hide");
+                //刷新跳转至第一页
+                // $("#dataTable").bootstrapTable("selectPage",1).bootstrapTable("refresh");
+                $("#dataTable").bootstrapTable("selectPage",1);
+            },
+            error : function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">新增产品服务</h4>
+</div>
+
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/server_save">
+    <div class="modal-body">
+        <input style="display: none" name="id" id="id" th:value="${serverManager.id}">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" id="name" th:value="${serverManager.name}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">背景图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="background" name="background" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">logo图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="picture" name="picture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">描述:</label>
+        </div>
+        <div class="form-group">
+            <div id="description" name="description" style="height:200px">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<style type="text/css">
+    .w-e-text {
+        padding: 0 10px;
+        overflow-y: scroll;
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .w-e-text-container {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100% !important;
+        height: 180px !important;
+    }
+</style>
+<script th:inline="javascript">
+
+    var serverManager = [[${serverManager}]];
+
+    var E = window.wangEditor;
+    var descriptionEditor = new E('#description');         //产品概述
+    descriptionEditor.customConfig.uploadImgShowBase64 = true;
+    descriptionEditor.create();
+    descriptionEditor.txt.html(serverManager.description);
+
+    $("#defaultForm").bootstrapValidator('addField','name',{
+        validators: {
+            notEmpty: {
+                message: '名称不能为空'
+            },
+            stringLength: {
+                min: 0,
+                max: 5,
+                message: '名称最长为5个字符'
+            }
+        }
+    });
+
+    $('#defaultForm').on('success.form.bv', function(e) {
+        // 阻止默认提交事件
+        e.preventDefault();
+
+        var $form = $(e.target);
+
+        var formData = new FormData();
+        formData.append("picture", $('#picture')[0].files[0]);
+        formData.append("backgroundPicture", $('#background')[0].files[0]);
+        formData.append("name", $('#name').val());
+        formData.append("description", descriptionEditor.txt.html());
+        formData.append("id", $('#id').val());
+
+        $.ajax({
+            url : $form.attr('action'),
+            type : "post",
+            data : formData,
+            dataType : 'json',
+            cache : false,//上传文件无需缓存
+            processData : false,//用于对data参数进行序列化处理 这里必须false
+            contentType : false, //必须
+            success : function (result) {
+                if(result.type == "alert"){
+                    alert(result.message);
+                }
+                $("#modal").modal("hide");
+                $("#dataTable").bootstrapTable("selectPage",1);
+            },
+            error : function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

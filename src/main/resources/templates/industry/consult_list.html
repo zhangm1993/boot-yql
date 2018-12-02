@@ -1,0 +1,124 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">用户咨询</li>
+            </ul><!-- /.breadcrumb -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <select class="search-data" name="Q_EQ_type">
+                        <option value="">咨询类别</option>
+                        <option value="1">产品</option>
+                        <option value="2">解决方案</option>
+                        <option value="3">优秀案例</option>
+                    </select>
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <a type="button" onclick="editData('/industry/consult_show','id')" class="btn btn-info">查看</a>
+                </div>
+                <table id="dataTable" data-url="/industry/consult_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="15" data-cache="false">
+
+                </table>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+
+    <script th:inline="javascript">
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'type',
+            align: 'center',
+            title: '类别',
+            formatter:function(value, row, index){
+                if(value == 1){
+                    return '<p style="color: #00BE67">产品</p>';
+                }
+                if(value == 2){
+                    return '<p style="color: #006dcc">解决方案</p>';
+                }
+                if(value == 3){
+                    return '<p style="color: #2ECEE7">优秀案例</p>';
+                }
+            }
+        },{
+            field: 'objectName',
+            align: 'center',
+            title: '对象名称'
+        },{
+            field: 'name',
+            title: '咨询人姓名',
+            align: 'center'
+        },{
+            field: 'phone',
+            title: '联系方式',
+            align: 'center'
+        },{
+            field: 'communicateTime',
+            title: '适合沟通时间',
+            align: 'center',
+            formatter: communicateTimeFormatter
+        },{
+            field: 'accessoryUrl',
+            title: '附件',
+            align: 'center',
+            formatter: accessoryUrlFormatter
+        }];
+
+        //沟通时间
+        function communicateTimeFormatter(value, row, index) {
+
+            var html = '';
+            switch(value) {
+                case '1':
+                    html += '<lable>9:00-10:30</lable>';
+                    break;
+                case '2':
+                    html += '<lable>10:30-12:00</lable>';
+                    break;
+                case '3':
+                    html += '<lable>14:00-16:00</lable>';
+                    break;
+                case '4':
+                    html += '<lable>16:00-18:00</lable>';
+                    break;
+            }
+            return [html].join('');
+        }
+
+        //附件 下载
+        function accessoryUrlFormatter(value, row, index) {
+            var html = '';
+            if (value != null) {
+                html += '<a class="btn btn-xs btn-danger" href="' + value + '" target="_blank">下载</a>';
+            }
+
+            return [html].join('');
+        }
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+    </script>
+</div>
+</body>
+</html>

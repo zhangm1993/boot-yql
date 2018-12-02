@@ -1,0 +1,107 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">用户管理</li>
+            </ul><!-- /.breadcrumb -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <input class="search-data" name="Q_LIKE_name" type="text" placeholder="用户名称" >
+                    <select class="search-data" name="Q_EQ_customer.id">
+                        <option value="">选择客户公司</option>
+                        <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+                    </select>
+                    <select class="search-data" name="Q_EQ_customer.id">
+                        <option value="">选择角色</option>
+                        <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                    </select>
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" href="/system/user_add" data-target="#modal">新增</a>
+                    <a type="button" onclick="editData('/system/user_edit','id')" class="btn btn-info">修改</a>
+                    <a type="button" onclick="delDatas('/system/user_del')" class="btn btn-danger">删除</a>
+                </div>
+                <table id="dataTable" data-url="/system/user_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="10" data-cache="false">
+
+                </table>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+
+
+    <script>
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'loginName',
+            title: '用户名'
+        },{
+            field: 'name',
+            title: '真实姓名'
+        },{
+            field: 'customerName',
+            title: '客户公司'
+        },{
+            field: 'roleName',
+            title: '角色'
+        },{
+            field: 'sex',
+            title: '性别',
+            formatter:function (value,row,index) {
+                return formatSex(value);
+            }
+        },{
+            field: 'createDate',
+            title: '创建时间',
+            formatter:function(value,row,index){
+                return formatTimeStrap(value);
+            }
+        }];
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+        
+//        function test() {
+//            var a= $("#dataTable").bootstrapTable('getSelections');
+//
+//            if(a.length==1){
+//
+//                console.log(a[0].name);
+//
+//            }else{
+//                alert("请选中一行");
+//            }
+//        }
+
+//        function test2() {
+//
+//            $("#modal").modal({
+//                remote:"/role/role_add"
+//            });
+//        }
+
+    </script>
+
+</div>
+</body>
+</html>

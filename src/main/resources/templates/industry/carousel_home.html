@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">设置首页轮播</h4>
+</div>
+
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/carousel_home_save">
+    <div class="modal-body">
+        <input style="display: none" name="id" id="id" th:value="${carousel.id}">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">首页排序</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="homeRank" id="homeRank" th:value="${carousel.homeRank}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<script th:inline="javascript">
+
+    //表单初始化
+    initCheck();
+</script>

@@ -1,0 +1,40 @@
+<script src="/js/parameter.js"></script>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">添加参数</h4>
+</div>
+<form id="defaultForm" method="post" class="form-horizontal" action="/system/parameter_save">
+    <input style="display: none" name="parentId" th:value="${parentId}">
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">编号</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="code" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">备注</label>
+            <div class="col-lg-5">
+                <textarea type="text" class="form-control" name="remark" ></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<script th:inline="javascript">
+    //表单初始化
+    var tableId = [[${tableId}]];
+    parameterInitCheck(tableId);
+</script>

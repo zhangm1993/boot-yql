@@ -1,0 +1,313 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">修改产品</h4>
+</div>
+
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/produce_save">
+
+
+    <div class="modal-body">
+        <input style="display: none" name="id" id="id" th:value="${produce.id}">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">产品名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" id="name" th:value="${produce.name}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">产品编码</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="code" id="code" th:value="${produce.code}" th:readonly="${produce.code}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">一级分类</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="firstCate" id = "firstCate" onchange="changeCate(this)">
+                    <option value="">请选择分类</option>
+                    <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}" th:selected="${parameter.id eq produce.firstCate.id}" ></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">二级分类</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="secondCate" id = "secondCate">
+                    <option value="">选择二级分类</option>
+                    <option th:each="parameter:${childParameters}" th:value="${parameter.id}" th:text="${parameter.name}" th:selected="${parameter.id eq produce.secondCate.id}" ></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">详情图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="picture" name="picture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">图片背景颜色</label>
+            <div class="col-lg-5">
+                <input type="text" class="inp required" name="pictureBackground" id="pictureBackground" th:value="${produce.pictureBackground}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">简介图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="homePicture" name="homePicture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">产品名称</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="title" id="title" th:value="${produce.title}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">产品简介</label>
+            <div class="col-lg-5">
+                <textarea  class="form-control" name="description" id="description" th:text="${produce.description}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">提供服务:</label>
+        </div>
+        <div class="form-group">
+            <div id="overview" name="overview" style="height:200px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">商品说明:</label>
+        </div>
+        <div class="form-group">
+            <div id="explanation" name="explanation" style="height:200px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">解决方案:</label>
+        </div>
+        <div class="form-group">
+            <div id="advantage" name="advantage" style="height:200px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">商品规格:</label>
+        </div>
+        <div class="form-group">
+            <div id="specification" name="specification" style="height:200px">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<style type="text/css">
+    .w-e-text {
+        padding: 0 10px;
+        overflow-y: scroll;
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .w-e-text-container {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100% !important;
+        height: 180px !important;
+    }
+</style>
+
+<script th:inline="javascript">
+
+    var produce = [[${produce}]];
+    var E = window.wangEditor;
+    var overviewEditor = new E('#overview');         //产品概述
+    overviewEditor.customConfig.uploadImgShowBase64 = true;
+    // overviewEditor.customConfig.pasteTextHandle = function (content) {
+    //     // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+    //     return content.replace('background', '');
+    // };
+    overviewEditor.create();
+    overviewEditor.txt.html(produce.overview);
+
+    var explainEditor = new E('#explanation');          //产品说明
+    explainEditor.customConfig.uploadImgShowBase64 = true;
+    // explainEditor.customConfig.pasteTextHandle = function (content) {
+    //     // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+    //     return content.replace('background', '');
+    // };
+    explainEditor.create();
+    explainEditor.txt.html(produce.explanation);
+
+    var advantageEditor = new E('#advantage');       //产品优势
+    advantageEditor.customConfig.uploadImgShowBase64 = true;
+    // advantageEditor.customConfig.pasteTextHandle = function (content) {
+    //     // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+    //     return content.replace('background', '');
+    // };
+    advantageEditor.create();
+    advantageEditor.txt.html(produce.advantage);
+
+    var specificationEditor = new E('#specification');   //产品规格
+    specificationEditor.customConfig.uploadImgShowBase64 = true;
+    // specificationEditor.customConfig.pasteTextHandle = function (content) {
+    //     // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+    //     return content.replace('background', '');
+    // };
+    specificationEditor.create();
+    specificationEditor.txt.html(produce.specification);
+
+    $("#pictureBackground").bigColorpicker(function(el, color) {
+        $(el).val(color);
+    });
+
+    $('#defaultForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            name: {
+                message: '不是有效的用户名',
+                validators: {
+                    notEmpty: {
+                        message: '产品名称不能为空'
+                    }
+                }
+            },
+            // code: {
+            //     validators: {
+            //         validators: {
+            //             notEmpty: {
+            //                 message: '产品编码不能为空'
+            //             }
+            //         },
+            //         remote: {
+            //             url : '/industry/produce_code_check',
+            //             message : '产品编码已存在',
+            //             delay : 1500,
+            //             type : 'POST'
+            //         }
+            //     }
+            // },
+            firstCate: {
+                validators: {
+                    notEmpty: {
+                        message: '一级分类不能为空'
+                    }
+                }
+            },
+            secondCate: {
+                validators: {
+                    notEmpty: {
+                        message: '二级分类不能为空'
+                    }
+                }
+            },
+            title: {
+                validators: {
+                    notEmpty: {
+                        message: '标题不能为空'
+                    }
+                }
+            },
+            description: {
+                validators: {
+                    notEmpty: {
+                        message: '产品简介不能为空'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // 阻止默认提交事件
+        e.preventDefault();
+
+        var $form = $(e.target);
+
+        var overview = overviewEditor.txt.html();
+        var explain = explainEditor.txt.html();
+        var advantage = advantageEditor.txt.html();
+        var specification = specificationEditor.txt.html();
+
+        var formData = new FormData();
+        formData.append("overview", overview);
+        formData.append("explanation", explain);
+        formData.append("advantage", advantage);
+        formData.append("specification", specification);
+        formData.append("picture", $('#picture')[0].files[0]);
+        formData.append("homePicture", $('#homePicture')[0].files[0]);
+        formData.append("name", $('#name').val());
+        formData.append("firstCate", $('#firstCate option:selected').val());
+        formData.append("secondCate", $('#secondCate option:selected').val());
+        formData.append("title", $('#title').val());
+        formData.append("description", $('#description').val());
+        formData.append("pictureBackground", $('#pictureBackground').val());
+        formData.append("code", $('#code').val());
+        formData.append("id", $('#id').val());
+
+        console.log(formData);
+
+        $.ajax({
+            url : $form.attr('action'),
+            type : "post",
+            data : formData,
+            dataType : 'json',
+            cache : false,//上传文件无需缓存
+            processData : false,//用于对data参数进行序列化处理 这里必须false
+            contentType : false, //必须
+            success : function (result) {
+                if(result.type == "alert"){
+                    alert(result.message);
+                }
+                $("#modal").modal("hide");
+                //刷新跳转至第一页
+                // $("#dataTable").bootstrapTable("selectPage",1).bootstrapTable("refresh");
+                $("#dataTable").bootstrapTable("selectPage",1);
+            },
+            error : function () {
+                console.log("error")
+            }
+        });
+    });
+
+    //二级联动
+    function changeCate(obj) {
+
+        var parameters = [[${parameters}]];
+
+        $("#secondCate").empty();
+        $("#secondCate").append("<option value=''>选择二级分类</option>");
+
+        var result = $(obj).val();
+
+        for (var i = 0; i < parameters.length; i++) {
+            var parameter = parameters[i];
+            if (parameter.id == result) {
+                var parameterChild = parameter.childList;
+                for (var i = 0; i < parameterChild.length; i++) {
+                    var html = "<option value=" + parameterChild[i].id + ">" + parameterChild[i].name + "</option>";
+                    $("#secondCate").append(html);
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,265 @@
+<html layout:decorate="~{portalDefault/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div style="clear:both"></div>
+    <section>
+        <div class="h120 w3-grey">
+            <div class="div1200">
+                <div class="w3-row ">
+                    <div class="w3-col s3"><h1 class="w3-center">帮助文档</h1></div>
+                    <div class="w3-col s6">
+                        <div class="w3-left ptop20" style="width:500px">
+                            <input type="text" class="w3-input w3-border w3-border-blue" id="sele_val">
+                        </div>
+                        <div class="w3-left ptop20"><button class="w3-btn w3-blue w3-large" id="sel_btn" type="button" onclick="select_doc()">搜索</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div1200">
+            <ul class="w3-row doc-tit">
+               <li class="w3-col s4 w3-center"><a href="#" class="w3-btn w3-xxlarge w3-light-grey w3-border w3-round" id="btn_doc" onclick="openCity('doc-1',0)">文档</a></li>
+               <li class="w3-col s4 w3-center"><a href="#" class="w3-btn w3-xxlarge  w3-white w3-border  w3-round" onclick="openCity('doc-2',1)">常见问题</a></li>
+               <li class="w3-col s4 w3-center"><a href="#" class="w3-btn w3-xxlarge w3-white w3-border  w3-round" onclick="openCity('doc-3',2)">自助工具</a></li>
+            </ul>
+            <div style="border-top:1px solid #dedede">
+                <div id="doc-1" class="city">
+                   <ul class="w3-row">
+                       <li class="w3-col s4" th:each="docType,obj: ${pages}">
+                           <div style="width:300px;margin: 0 auto" id="doc_com">
+                               <h3 class="w3-center" th:each="doc,obj2 : ${docTypes}"  th:if="${obj.index==obj2.index}" th:text="${doc.name}" ></h3>
+                               <p class="doc-info" th:each="docTit : ${docType.content}" >
+                                   <a class="w3-hover-text-orange" th:href="'doc_download?id=' + ${docTit.id}" th:text="${docTit.name}" th:download="${docTit.name}">文档一</a>
+                               </p>
+
+                           </div>
+                       </li>
+                       <!--<li class="w3-col s4">
+                           <div style="width:300px;margin: 0 auto">
+                               <h3 class="w3-center">文档分类</h3>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                           </div>
+                       </li>
+                       <li class="w3-col s4">
+                           <div style="width:300px;margin: 0 auto">
+                               <h3 class="w3-center">文档分类</h3>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                               <p class="doc-info"><a href="javascript:void(0)">文档一</a></p>
+                           </div>
+                       </li>-->
+                   </ul>
+                    <div style="clear:both;height: 20px"></div>
+                    <div style="float: right">
+                        <div class="w3-pagination w3-border w3-round">
+                            <!--<a href="javascript:void(0)">«</a>-->
+                            <!--<a class="w3-green" href="javascript:void(0)">1</a>-->
+                            <!--<a href="javascript:void(0)">2</a>-->
+                            <!--<a href="javascript:void(0)">3</a>-->
+                            <!--<a href="javascript:void(0)">4</a>-->
+                            <!--<a href="javascript:void(0)">5</a>-->
+                            <!--<a href="javascript:void(0)">»</a>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="doc-2" class="city">
+                    <div id="doc-2-tit">
+                        <h2>&nbsp;</h2>
+                        <ol>
+                            <li th:each="isInfo,obj : ${iss.content}" class="w3-hover-text-orange paddi10">
+                                <span th:text="${obj.index}+'、'"></span>
+                                <a th:data-val="${isInfo.id}"  href="javascript:void(0)" th:text="${isInfo.title}"></a>
+                            </li>
+                        </ol>
+                    </div>
+                    <div id="doc-2-info" hidden>
+
+                    </div>
+                </div>
+
+                <div id="doc-3" class="city">
+                </div>
+            </div>
+        </div>
+    </section>
+    <div style="height: 10px;clear:both"></div>
+    <script th:inline="javascript">
+
+        var paHttp = [[${paHttp}]];
+        $(function(){
+            add_top();
+                //$(".us_role").remove();
+                /*导航js*/
+                // $(".nav-mycss li").on({
+                //     mouseover : function(){
+                //         $(this).find(".syhhe").show();
+                //     } ,
+                //     mouseout : function(){
+                //         $(this).find(".syhhe").hide();
+                //     }
+                // });
+
+            /**
+             * 加载帮助文档数据
+             * */
+            select_doc();
+
+            /**
+             * 搜索框添加回车事件
+             */
+            $("#sele_val").bind("keydown",function(e){
+
+                // 兼容FF和IE和Opera
+
+                var theEvent = e || window.event;
+
+                var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+
+                if (code == 13) {
+                    $("#btn_doc").click();
+                    $("#sel_btn").click();
+                }
+
+            });
+
+            $(this).on("click","#doc-2-tit a",function(){
+
+                var id=$(this).data("val");
+                    $.ajax({
+                        type: "post",
+                        url: "iss_sel_id_ajax",
+                        data: {
+                            id:id
+                        },
+                        dataType:"json",
+                        success:function(msg){
+                            console.log(msg);
+                            $("#doc-2-tit ol").hide();
+                            $("#doc-2-info").show();
+                            $("#doc-2-info").empty().append("<a href='javascript:void(0)' class='w3-text-orange' onclick='issr()'><i class='fa fa-arrow-left'></i>返回</a>")
+                                                    .append("<h3 class='w3-center'>"+msg.issbean.title+"</h3>")
+                                                    .append(msg.issbean.content);
+                        }
+                    });
+
+            })
+
+
+
+
+        });
+
+        function issr(){
+            $("#doc-2-tit ol").show();
+            $("#doc-2-info").hide();
+        }
+
+       openCity("doc-1",0);
+
+        function openCity(cityName,num) {
+
+                $(".doc-tit a").removeClass("w3-light-grey").addClass("w3-white");
+
+                $(".doc-tit a").eq(num).removeClass("w3-white").addClass("w3-light-grey");
+
+            var i;
+            var x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            document.getElementById(cityName).style.display = "block";
+        }
+
+
+        /**
+         *
+         * 分页的帮助文档
+         * */
+        function pagination_doc(pageNum,totalPages,callback){
+            console.log(pageNum);
+
+            if(!pageNum||pageNum==0){
+                pageNum=0;
+            }
+
+            $('.w3-pagination').pagination({
+                pageCount:totalPages,// 总页数
+                current:pageNum+1,
+                coping: true,
+                homePage: '«',
+                endPage: '»',
+                prevContent: '上一页',
+                nextContent: '下一页',
+                callback: function (api) {
+                    console.log(api.getCurrent());
+                    callback(api.getCurrent()-1,10);
+                }
+            });
+        }
+
+
+
+
+        function select_doc(pageNum,pageSize){
+
+            if(!pageNum){
+                pageNum=0
+            }
+            if(!pageSize){
+                pageSize=10
+            }
+
+            var selvla=$("#sele_val").val();
+
+            $.ajax({
+                type: "post",
+                url: "document_like_ajax",
+                data: {Q_LIKE_name:selvla,
+                    pageNum:pageNum,
+                    pageSize:pageSize
+                },
+                success: function(msg){
+                    $("#btn_doc").click();
+                   // console.log(msg);
+                    $("#doc-1 ul li div p").remove();
+
+                    var data=msg.doc_like;
+                    var  totalPages=0;
+                    var ind=0;
+                    for(var index in data){
+                      var str="";
+
+                      if(index==0){
+                          totalPages=data[index].totalPages
+                      }else if(totalPages<data[index].totalPages){
+                          totalPages=data[index].totalPages;
+                          ind=index;
+                      }
+
+                        var doc_con=data[index].content;
+                        //console.log(doc_con)
+                        for(var index1 in doc_con){
+                            //console.log(doc_con[index1])
+                            str+= '<p class="doc-info">'
+                            str+=       '<a class="w3-hover-text-orange" href="' + paHttp.remark +doc_con[index1].url+'">'+doc_con[index1].name+'</a>'
+                            str+=   '</p>';
+                        }
+                       // console.log(str)
+                        $("#doc-1 ul li div").eq(index).append(str);
+                    }
+
+                    pagination_doc(data[ind].number,totalPages,select_doc);
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

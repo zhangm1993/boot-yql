@@ -1,0 +1,212 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">参数管理</li>
+            </ul><!-- /.breadcrumb -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="parameter_main">
+
+                <!--父类别-->
+                <div id="parameter_parent" class="parameter_div">
+                    <div class="panel panel-primary parameter_panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                类别管理
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="parent_btn" style="display: flex;justify-content: space-between">
+                                <div  class="btn-group btn-group-sm">
+                                    <input id="parent_id" style="display: none" value=""/>
+                                    <a type="button" class="btn btn-primary"  onclick="parameterAdd('/system/parameter_add','parent_id',this)" >新增</a>
+                                    <a type="button" onclick="editParameterData('/system/parameter_edit','id','parent_id','dataTable')" class="btn btn-info">修改</a>
+                                    <a type="button" onclick="delDatas('/system/parameter_del','dataTable')" class="btn btn-danger">删除</a>
+                                </div>
+                                <div style="">
+                                    <input class="search-data-parent" name="Q_LIKE_name" type="text" placeholder="名称" style="height: 33px">
+                                    <button type="button" onclick="parameterSearch('dataTable')" class="btn btn-primary btn-sm" >搜索</button>
+                                </div>
+                            </div>
+
+                            <table id="dataTable" data-url="/system/parameter_data" data-page-list=[]  data-striped="true" data-pagination="true" data-cache="false">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--子类别-->
+                <div id="parameter_child" class="parameter_div">
+                    <div class="panel panel-primary parameter_panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                子类别管理
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="child_btn" style="display: none;justify-content: space-between">
+                                <div class="btn-group btn-group-sm">
+                                    <input id="child_id" style="display: none" value=""/>
+                                    <a type="button" class="btn btn-primary"   onclick="parameterAdd('/system/parameter_add','child_id','dataTable_child')" >新增</a>
+                                    <a type="button" onclick="editParameterData('/system/parameter_edit','id','child_id','dataTable_child')" class="btn btn-info">修改</a>
+                                    <a type="button" onclick="delDatas('/system/parameter_del','dataTable_child')" class="btn btn-danger">删除</a>
+                                    <a type="button" onclick="addChild('dataTable_child')" class="btn btn-success">新增子项</a>
+                                </div>
+                                <div style="">
+                                    <input class="search-data-child" name="Q_LIKE_name" type="text" placeholder="名称" style="height: 33px">
+                                    <button onclick="parameterSearch('dataTable_child')" name="Q_LIKE_name" type="button" class="btn btn-primary btn-sm" >搜索</button>
+                                </div>
+                            </div>
+                            <table id="dataTable_child" data-url="/system/parameter_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="3" data-cache="false">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--JS-->
+    <script>
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'code',
+            title: '编号'
+        },{
+            field: 'name',
+            title: '名称'
+        },{
+            field: 'remark',
+            title: '描述'
+        }];
+        //初始化table
+        window.onload = function () {
+            getParatemerTable("search-data-parent",dataFormat,"dataTable");
+
+            //父 -- 点击事件
+            $('#dataTable').on("click-row.bs.table",function(e, row, $element) {
+                //将按钮DIV变成FLEX
+                $("#child_btn").css("display","flex");
+                //销毁之前的table数据
+                $("#dataTable_child").bootstrapTable('destroy');
+                //获取parentId
+                var parentId = row.id;
+                getParatemerTable("search-data-child",dataFormat,"dataTable_child",parentId);
+                $("#child_id").val(parentId);
+
+            });
+        };
+
+        //获取table数据
+        function getParatemerTable(searchClass,dataFormat,id,parentId) {
+            $("#"+id).bootstrapTable({
+                method:"get",
+                sidePagination:"server",
+                dataType: "json",
+                queryParams: function queryParams(params) {   //设置查询参数
+                    var param = {
+                        pageNum: params.offset/params.limit,
+                        parentId:parentId
+                    };
+                    $("."+searchClass).each(function () {
+                        var key = $(this).attr("name");
+                        var val = $(this).val();
+                        param[key] = val;
+                    });
+                    return param;
+                },
+                columns:dataFormat
+            });
+        }
+
+        //修改按钮  url field 字段名  id table的ID
+        function editParameterData(url,field,inputId,id) {
+            var parentId = $("#"+inputId).val();
+            var idResult = "dataTable";
+            if(id){
+                idResult = id;
+            }
+            var table = $("#"+idResult).bootstrapTable('getSelections');
+            if(table.length == 0){
+                alert("请选择一条记录");
+                return false;
+            }else if(table.length > 1){
+                alert("只能选择一条记录");
+                return false;
+            }
+            var result = table[0][field];
+
+            $("#modal").modal({
+                remote:url+ "?"+field+"="+result + "&parentId="+parentId +"&tableId=" + idResult
+            });
+        }
+
+
+        function parameterAdd(url,inputId,id) {
+            var parentId = $("#"+inputId).val();
+            $("#modal").modal({
+                remote:url+ "?parentId="+parentId + "&tableId="+id
+            });
+            //传递parentId及要刷新的table Id
+//            $("#model_main").load("/system/parameter_add?parentId="+parentId + "&tableId=dataTable_child",function () {
+//                $("#modal").modal("show");
+//            });
+        }
+
+        //搜索按钮
+        function parameterSearch(id) {
+            $("#"+id).bootstrapTable("selectPage",1);
+        }
+        
+        function addChild(idResult) {
+            var table = $("#"+idResult).bootstrapTable('getSelections');
+            if(table.length == 0){
+                alert("请选择一条记录");
+                return false;
+            }else if(table.length > 1){
+                alert("只能选择一条记录");
+                return false;
+            }
+            var result = table[0]['id'];
+            $("#parent_id").val(result);
+            $("#dataTable").bootstrapTable('destroy');
+            getParatemerTable("search-data-parent",dataFormat,"dataTable",result);
+        }
+
+
+
+    </script>
+
+    <!--CSS-->
+    <style>
+        .parameter_div{
+            height: 600px;
+        }
+        .parameter_panel{
+            height: 100%;
+        }
+    </style>
+
+</div>
+</body>
+</html>

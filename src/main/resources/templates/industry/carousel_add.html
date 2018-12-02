@@ -1,0 +1,166 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">新增轮播</h4>
+</div>
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/carousel_save">
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">轮播标题</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="title" id="title"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">轮播图片</label>
+            <div class="col-lg-5">
+                <input type="file" class="form-control" id="picture" name="picture" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">图片背景颜色</label>
+            <div class="col-lg-5">
+                <input type="text" class="inp required" name="pictureBackground" id="pictureBackground"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">轮播类型</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="category" id = "category">
+                    <option value="">请选择类型</option>
+                    <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">轮播对象url</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="categoryUrl" id="categoryUrl"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">类别排序</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="cateRank" id="cateRank"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">轮播简介</label>
+            <div class="col-lg-5">
+                <textarea  class="form-control" name="description" id="description"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+
+<script th:inline="javascript">
+
+    $("#pictureBackground").bigColorpicker(function(el, color) {
+        $(el).val(color);
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','title',{
+        validators: {
+            notEmpty: {
+                message: '轮播标题不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','picture',{
+        validators: {
+            notEmpty: {
+                message: '轮播图片不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','category',{
+        validators: {
+            notEmpty: {
+                message: '轮播类型不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','categoryUrl',{
+        validators: {
+            notEmpty: {
+                message: '轮播对象url不能为空'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','cateRank',{
+        validators: {
+            notEmpty: {
+                message: '类型排序不能为空'
+            },
+            regexp: {
+                regexp: /^[0-9]+$/,
+                message: '必须为数字'
+            },
+            stringLength: {
+                min: 1,
+                max: 2,
+                message: '排序范围应在1~99之间'
+            }
+        }
+    });
+
+    $("#defaultForm").bootstrapValidator('addField','description',{
+        validators: {
+            notEmpty: {
+                message: '案例简介不能为空'
+            }
+        }
+    });
+
+    $('#defaultForm').on('success.form.bv', function(e) {
+        // 阻止默认提交事件
+        e.preventDefault();
+
+        var $form = $(e.target);
+
+        var formData = new FormData();
+        formData.append("title", $('#title').val());
+        formData.append("picture", $('#picture')[0].files[0]);
+        formData.append("pictureBackground", $('#pictureBackground').val());
+        formData.append("category", $('#category option:selected').val());
+        formData.append("categoryUrl", $('#categoryUrl').val());
+        formData.append("cateRank", $('#cateRank').val());
+        formData.append("description", $('#description').val());
+
+        $.ajax({
+            url : $form.attr('action'),
+            type : "post",
+            data : formData,
+            dataType : 'json',
+            cache : false,//上传文件无需缓存
+            processData : false,//用于对data参数进行序列化处理 这里必须false
+            contentType : false, //必须
+            success : function (result) {
+                if(result.type == "alert"){
+                    alert(result.message);
+                }
+                $("#modal").modal("hide");
+                //刷新跳转至第一页
+                // $("#dataTable").bootstrapTable("selectPage",1).bootstrapTable("refresh");
+                $("#dataTable").bootstrapTable("selectPage",1);
+            },
+            error : function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

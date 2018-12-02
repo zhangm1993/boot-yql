@@ -1,0 +1,87 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">查看咨询</h4>
+</div>
+
+<form id="defaultForm" method="post" class="form-horizontal" action="/industry/company_save">
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">类型:</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="type" id = "type">
+                    <option value="1" th:selected="${consult.type eq 1}">产品</option>
+                    <option value="2" th:selected="${consult.type eq 2}">解决方案</option>
+                    <option value="3" th:selected="${consult.type eq 3}">优秀案例</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">咨询对象:</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="objectName" id="objectName" th:value="${consult.objectName}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">所属行业:</label>
+            <div class="col-lg-5">
+                <select class="form-control" name="business" id = "business">
+                    <option value="">请选择行业</option>
+                    <option th:each="parameter:${parameters}" th:value="${parameter.id}" th:text="${parameter.name}" th:select="${consult.business == parameter.id}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">公司名称/个人:</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="personage" id="personage" th:value="${consult.personage}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">公司规模:</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="scale" id="scale" th:value="${consult.scale}"/>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">联系人</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" id="name" th:value="${consult.name}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">联系手机:</label>
+            <div class="col-lg-5">
+                <input type="text" class="form-control" name="phone" id="phone" th:value="${consult.phone}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">需求描述:</label>
+            <div class="col-lg-5">
+                <textarea  class="form-control" name="description" id="description" style="height: 150px" th:text="${consult.description}"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label">适合沟通时间段:</label>
+            <div class="col-lg-5">
+                <input type="radio" value="1" name="communicateTime" th:checked="${consult.communicateTime == '1'}">9:00-10:30</input>
+                <input type="radio" value="2" name="communicateTime" th:checked="${consult.communicateTime == '2'}">10:30-12:00</input>
+                <input type="radio" value="3" name="communicateTime" th:checked="${consult.communicateTime == '3'}">14:00-16:00</input>
+                <input type="radio" value="4" name="communicateTime" th:checked="${consult.communicateTime == '4'}">16:00-18:00</input>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    </div>
+</form>

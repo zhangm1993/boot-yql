@@ -1,0 +1,181 @@
+<html layout:decorate="~{default/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+    <div layout:fragment="content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">主页</a>
+                    </li>
+                    <li class="active">帮助文档</li>
+                </ul><!-- /.breadcrumb -->
+
+            </div>
+
+            <div class="page-content">
+                <div class="search_condition">
+                    <form id="search-form">
+                        <input class="search-data" name="Q_LIKE_name" type="text" placeholder="文档名称" >
+                        <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                    </form>
+                </div>
+
+                <div class="main-body">
+                    <div id="toolbar" class="btn-group btn-group-sm">
+                        <a type="button" class="btn btn-primary" data-toggle="modal" href="/industry/document_add" data-target="#modal">新增</a>
+                        <a type="button" onclick="editDoc('/industry/document_edit','id')" class="btn btn-info">修改</a>
+                        <a type="button" onclick="delDocs('/industry/document_del')" class="btn btn-danger">删除</a>
+                    </div>
+                    <table id="dataTable" data-url="/industry/document_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="10" data-cache="false">
+
+                    </table>
+                </div>
+            </div><!-- /.page-content -->
+        </div>
+
+        <script>
+
+            //table字段
+            var dataFormat = [{
+                checkbox: true
+            },{
+                field:'id',
+                title:'id',
+                visible:false
+            },{
+                field: 'name',
+                title: '文档名称'
+            },{
+                field: 'type.name',
+                title: '文档分类'
+            },{
+                field: 'url',
+                title: '文档url'
+            },{
+                field: 'remark',
+                title: '备注'
+            },{
+                field: 'createTime',
+                title: '上传时间'
+            },{
+                field: 'status',
+                title: '状态',
+                formatter:function (value,row,index) {
+                    if(value == 0){
+                        return '<p style="color: #00BE67">未上线</p>';
+                    }
+                    if(value == 1){
+                        return '<p style="color: #00BE67">已上线</p>';
+                    }
+                }
+            },{
+                field: 'status',
+                title: '操作',
+                formatter:function (value,row,index) {
+                    if(value == 0){
+                        return '<button class="btn btn-xs btn-info" onclick="updateStatus('+row.id+',1)">上线</button>';
+                    }
+                    if(value == 1){
+                        return '<button class="btn btn-xs btn-danger" onclick="updateStatus('+row.id+',0)" value="0">下线</button>';
+                    }
+                }
+            }];
+
+            //初始化table
+            window.onload = function () {
+                getTable(dataFormat,"dataTable");
+            };
+
+            //上下线操作  1:上线 0:下线
+            function updateStatus (id, status) {
+
+                var ids=[];
+                ids.push(id)
+                $.ajax({
+                    url : '/industry/document_update',
+                    type : 'post',
+                    traditional : true,
+                    data : {
+                        ids: ids,
+                        status : status
+                    },
+                    dataType : 'json',
+                    success : function(result){
+                        if(result.type == "alert"){
+                            alert(result.message);
+                        }
+                        $("#dataTable").bootstrapTable("selectPage",1);
+                    },
+                    error : function () {
+                        alert("操作失败");
+                    }
+                });
+            }
+
+
+
+            function delDocs(url){
+                var idResult="dataTable";
+
+                var table = $("#"+idResult).bootstrapTable('getSelections');
+                var ids = [];
+                for(var i = 0; i < table.length;i++){
+
+                    if(table[i].status!=1){
+                        ids.push(table[i].id)
+                    }
+                }
+
+                for(var i = 0; i < table.length;i++){
+                    if(table[i].status==1&&confirm("您选中的文档["+table[i].name+"]未下线是否删除")){
+                        ids.push(table[i].id);
+                    }
+                }
+
+                if(ids.length!=0){
+                    $.ajax({
+                        url:url,
+                        type:'post',
+                        traditional:true,
+                        data:{ids:ids},
+                        dataType:'json',
+                        success:function(result){
+                            if(result.type == "alert"){
+                                alert(result.message);
+                            }
+                            $("#"+idResult).bootstrapTable("selectPage",1);
+                        },
+                        error:function () {
+                            alert("删除失败");
+                        }
+                    });
+                }
+            }
+            function editDoc(url,field,id) {
+                var idResult = "dataTable";
+                if(id){
+                    idResult = id;
+                }
+                var table = $("#"+idResult).bootstrapTable('getSelections');
+                if(table.length == 0){
+                    alert("请选择一条记录");
+                    return false;
+                }else if(table.length > 1){
+                    alert("只能选择一条记录");
+                    return false;
+                }
+                var result = table[0][field];
+                if(table[0].status==1){
+                    alert("不能修改线上的产品");
+                }else{
+                    $("#modal").modal({
+                        remote:url+ "?"+field+"="+result
+                    });
+                }
+
+            }
+        </script>
+    </div>
+</body>
+</html>

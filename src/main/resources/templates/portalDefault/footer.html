@@ -1,0 +1,15 @@
+<div class="footer-main" th:fragment="footer">
+    <div class="div1200 footer-main-1">
+        <!--<div class="footer-main-1-a">-->
+        <!--</div>-->
+        <div >
+            <div style="width:20%;float:left" th:each="foot:${footTit}">
+                <h3 class="w3-center"  th:text="${foot.name}">关于我们</h3>
+                <p class="w3-center" th:each="find:${foot.childList}">
+                    <a th:attr="href=${find.remark}" th:text="${find.name}" class="" style="color: #a6a6a6 !important;">公司简介</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-main-2"></div>
+</div>

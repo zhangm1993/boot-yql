@@ -1,0 +1,120 @@
+<div th:fragment="sidebar" id="sidebar" class="sidebar responsive ace-save-state"
+     xmlns:th="http://www.w3.org/1999/xhtml">
+    <script type="text/javascript">
+        try{ace.settings.loadState('sidebar')}catch(e){}
+    </script>
+
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            <button class="btn btn-success">
+                <i class="ace-icon fa fa-signal"></i>
+            </button>
+
+            <button class="btn btn-info">
+                <i class="ace-icon fa fa-pencil"></i>
+            </button>
+
+            <button class="btn btn-warning">
+                <i class="ace-icon fa fa-users"></i>
+            </button>
+
+            <button class="btn btn-danger">
+                <i class="ace-icon fa fa-cogs"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div><!-- /.sidebar-shortcuts -->
+
+    <ul class="nav nav-list">
+        <!--<li class="">-->
+            <!--<a href="index.html" >-->
+                <!--<i class="menu-icon fa fa-tachometer"></i>-->
+                <!--<span class="menu-text"> Dashboard </span>-->
+            <!--</a>-->
+
+            <!--<b class="arrow"></b>-->
+        <!--</li>-->
+
+        <li th:each="menu,meunStat : ${menus}" class="" >
+            <a th:utext="|<i class='${menu.cssClass}'></i> <span class='menu-text'>${menu.title}</span> <b class='arrow  fa fa-angle-down'></b> |" href="#" class="dropdown-toggle">
+
+                未正确加载菜单
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li th:each="subMenu,subMenuStat : ${menu.subMenu}"  class="sub_menu">
+                    <a class="sub_url" th:text="${subMenu.title}" th:href="${subMenu.url}" >
+                        未正确加载菜单
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <!--<li class="">-->
+            <!--<a href="#" class="dropdown-toggle">-->
+                <!--<i class="menu-icon fa fa-desktop"></i>-->
+                <!--<span class="menu-text">-->
+								<!--UI &amp; Elements-->
+							<!--</span>-->
+
+                <!--<b class="arrow fa fa-angle-down"></b>-->
+            <!--</a>-->
+
+            <!--<b class="arrow"></b>-->
+
+            <!--<ul class="submenu">-->
+
+                <!--<li th:each="menu,meunStat : ${menus}" class="">-->
+                    <!--<a th:text="${menu.title}" href="typography.html">-->
+                        <!--<i th:class="${menu.cssClass}" class=""></i>-->
+                        <!--Typography-->
+                    <!--</a>-->
+
+                    <!--<b class="arrow"></b>-->
+                <!--</li>-->
+
+                <!--<li class="">-->
+                    <!--<a href="typography.html">-->
+                        <!--<i class="menu-icon fa fa-caret-right"></i>-->
+                        <!--Typography-->
+                    <!--</a>-->
+
+                    <!--<b class="arrow"></b>-->
+                <!--</li>-->
+
+
+
+                <!--<li class="">-->
+                    <!--<a href="treeview.html">-->
+                        <!--<i class="menu-icon fa fa-caret-right"></i>-->
+                        <!--Treeview-->
+                    <!--</a>-->
+
+                    <!--<b class="arrow"></b>-->
+                <!--</li>-->
+
+
+            <!--</ul>-->
+        <!--</li>-->
+    </ul><!-- /.nav-list -->
+
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+
+</div>
+

@@ -1,0 +1,102 @@
+<html layout:decorate="~{default/layout}" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<body>
+<div layout:fragment="content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">主页</a>
+                </li>
+                <li class="active">角色管理</li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+
+        <div class="page-content">
+            <div class="search_condition">
+                <form id="search-form">
+                    <input class="search-data" name="Q_LIKE_name" type="text" placeholder="角色名称" >
+                    <!--<select class="search-data" name="identity">-->
+                        <!--<option value="">选择身份</option>-->
+                        <!--<option value="1">管理员</option>-->
+                        <!--<option value="2">产品经理</option>-->
+                        <!--<option value="3">客户经理</option>-->
+                    <!--</select>-->
+                    <button type="button" id="search-btn" class="btn btn-primary btn-search" >搜索</button>
+                </form>
+            </div>
+
+            <div class="main-body">
+                <div id="toolbar" class="btn-group btn-group-sm">
+                    <shiro:hasPermission name="user_addd">
+                        <a type="button" class="btn btn-primary" data-toggle="modal" href="/role/role_add" data-target="#modal">新增</a>
+                    </shiro:hasPermission>
+
+                    <a type="button" onclick="editData('/role/role_edit','id')" class="btn btn-info">修改</a>
+                    <a type="button" onclick="delDatas('/role/role_del')" class="btn btn-danger">删除</a>
+                </div>
+                <table id="dataTable" data-url="/role/role_data" data-page-list=[]  data-striped="true" data-pagination="true" data-page-size="15" data-cache="false">
+
+                </table>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+
+    <script>
+        //table字段
+        var dataFormat = [{
+            checkbox: true
+        },{
+            field:'id',
+            title:'id',
+            visible:false
+        },{
+            field: 'name',
+            title: '角色名称'
+        },{
+            field: 'status',
+            title: '状态',
+            formatter:function (value,row,index) {
+                if(value == 1){
+                    return '<p style="color: #00BE67">正常</p>';
+                }
+            }
+        },{
+            field: 'createUser.name',
+            title: '创建用户'
+        },{
+            field: 'createDate',
+            title: '创建时间',
+            formatter:function(value,row,index){
+                return formatTimeStrap(value);
+            }
+        }];
+        //初始化table
+        window.onload = function () {
+            getTable(dataFormat,"dataTable");
+        };
+        
+//        function test() {
+//            var a= $("#dataTable").bootstrapTable('getSelections');
+//
+//            if(a.length==1){
+//
+//                console.log(a[0].name);
+//
+//            }else{
+//                alert("请选中一行");
+//            }
+//        }
+
+//        function test2() {
+//
+//            $("#modal").modal({
+//                remote:"/role/role_add"
+//            });
+//        }
+
+    </script>
+
+</div>
+</body>
+</html>
